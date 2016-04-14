@@ -1,6 +1,8 @@
-## analytics.usa.gov
+## analytics.smgov.net
 
-A project to publish website analytics for the US federal government.
+A project to publish website analytics for the City of Santa Monica
+
+Based on the original by [18F](https://github.com/18F), [analytics.usa.gov](https://analytics.usa.gov)
 
 For a detailed description of how the site works, read [18F's blog post on analytics.usa.gov](https://18f.gsa.gov/2015/03/19/how-we-built-analytics-usa-gov/).
 
@@ -37,7 +39,7 @@ Please clone the `analytics-reporter` next to a local copy of this github reposi
   ```yaml
   ---
   name: Agency X # Name of the page
-  data_url: https://analytics.usa.gov/data/agencyx # Data URL from step 1
+  data_url: http://analytics.smgov.net/data/agencyx # Data URL from step 1
   layout: agencies # type of layout used. available layouts are in `_layouts`
   ---
   ```
@@ -93,9 +95,9 @@ The data will be available at `http://localhost:3000` over CORS, with no path pr
 
 ### Deploying the app to production
 
-In production, the site's base URL is set to `https://analytics.usa.gov` and the data's base URL is set to `https://analytics.usa.gov/data/live`.
+In production, the site's base URL is set to `http://analytics.smgov.net` and the data's base URL is set to `http://analytics.smgov.net/data/live`.
 
-To deploy this app to `analytics.usa.gov`, you will need authorized access to 18F's Amazon S3 bucket for the project.
+To deploy this app to `analytics.smgov.net`, you will need authorized access to 18F's Amazon S3 bucket for the project.
 
 To deploy the site using `s3cmd`, production settings, and a **5 minute cache time**, run:
 
