@@ -29,25 +29,25 @@ collections:
     output: true
     permalink: /:path/
 
-# Site title and description 
-title: "analytics.usa.gov | The US government's web traffic."
-description: "Official data on web traffic to hundreds of US federal government websites. Published by the Digital Analytics Program."
+# Site title and description
+title: "analytics.smgov.net | The City of Santa Monica's web traffic."
+description: "Official data on web traffic to City of Santa Monica websites."
 
 # Site's own URL
-url: https://analytics.usa.gov 
+url: http://analytics.smgov.net
 
 # Default dropdown title, will not appear if there are no sub-pages
 dropdown_title: All Participating Websites
 
 # Default data url
-data_url: https://analytics.usa.gov/data/live
+data_url: http://analytics.smgov.net/data
 
 # GitHub information
-org_name: GSA
-repo_name: analytics.usa.gov
+org_name: CityofSantaMonica
+repo_name: analytics.smgov.net
 
 # twitter information
-twitter: usgsa
+twitter: santamonicacity
 
 sass:
   sass_dir: sass

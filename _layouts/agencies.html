@@ -6,11 +6,6 @@
 
     Hi! Welcome to our source code.
 
-    This dashboard uses data from the Digital Analytics Program, a US
-    government team inside the General Services Administration, an independent
-    federal agency.
-
-
     For a detailed tech breakdown of how 18F and friends built this site:
 
     https://18f.gsa.gov/2015/03/19/how-we-built-analytics-usa-gov/
@@ -18,14 +13,13 @@
 
     This is a fully open source project, and your contributions are welcome.
 
-    Frontend static site: https://github.com/GSA/analytics.usa.gov
+    Frontend static site: https://github.com/CityofSantaMonica/analytics.smgov.net
     Backend data reporting: https://github.com/18F/analytics-reporter
 
     -->
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta name="google-site-verification" content="NjbZn6hQe7OwV-nTsa6nLmtrOUcSGPRyFjxm5zkmCcg" />
 
     <link rel="stylesheet" href="{{ site.baseurl }}/css/public_analytics.css">
     <link rel="shortcut icon"  href="../images/analytics-favicon.ico" type="image/x-icon">
@@ -54,9 +48,7 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-    ga('create', 'UA-48605964-36', 'auto');
-    ga('set', 'anonymizeIp', true);
-    ga('set', 'forceSSL', true);
+    ga('create', 'UA-xxxxxxxxx-xx', 'auto');
     ga('send', 'pageview');
 
     document.addEventListener("DOMContentLoaded", function(event) {
@@ -114,7 +106,7 @@
           About <span class="sm-hide">this site</span>
         </a>
         <a href="/" class="el left brand">
-          <strong>analytics</strong>.usa.gov
+          <strong>analytics</strong>.smgov.net
         </a>
         {% if site.agencies.size > 0 %}
         <div class="el left agency-selector-wrap">
@@ -152,10 +144,10 @@
       -->
 
       <div id="main_data">
-      
+
         <!-- Technical Difficulties Banner -->
 <!--         <div class="technical-difficulties">
-          * We are currently experiencing technical difficulties with respect to our real-time traffic data. 
+          * We are currently experiencing technical difficulties with respect to our real-time traffic data.
           Actual real-time visitor counts may be higher than displayed.
         </div> -->
 
@@ -164,12 +156,12 @@
           data-source="{{ data_url }}/realtime.json"
           data-refresh="15">
           <h2 id="current_visitors" class="data">...</h2>
-          <div class="chart_subtitle">people on agency websites now</div>
+          <div class="chart_subtitle">people on the website now</div>
         </section>
 
         <section class="section_headline visits_today">
           <h3>Visits Today</h3>
-          <h4>Eastern Time</h4>
+          <h4>Pacific Time</h4>
         </section>
         <section id="time_series"
           data-block="today"
@@ -318,30 +310,17 @@
           </figure>
 
         </section>
-
-        <section id="top_downloads_table">
-
-          <h3>Top Downloads</h3>
-          <h5><em>Total file downloads yesterday on agency domains.</em></h5>
-          <figure id="top-downloads"
-            data-block="top-downloads"
-            data-source="{{ data_url }}/top-downloads-yesterday.json">
-            <div class="data bar-chart">
-            </div>
-          </figure>
-
-        </section>
       </div>
 
       <section id="explanation">
 
         <h3>About this Site</h3>
         <p>
-          This data provides a window into how people are interacting with the government online. The data comes from a unified Google Analytics account for U.S. federal government agencies known as the <a href="https://www.digitalgov.gov/services/dap/" class="external-link">Digital Analytics Program</a>. This program helps government agencies understand how people find, access, and use government services online. The program <a href="https://www.digitalgov.gov/services/dap/common-questions-about-dap-faq/#part-4" class="external-link">does not track individuals</a>, and <a href="https://support.google.com/analytics/answer/2763052?hl=en" class="external-link">anonymizes the IP addresses</a> of visitors.
+          This data provides a window into how people are interacting with the City of Santa Monica online. The data comes from a unified Google Analytics account for the City.
         </p>
 
         <p>
-          Not every government website is represented in this data. Currently, the Digital Analytics Program collects web traffic from around <a href="https://analytics.usa.gov/data/live/second-level-domains.csv" class="external-link">400 executive branch government domains</a>, across <a href="https://analytics.usa.gov/data/sites.csv" class="external-link">over 4000 total websites</a>, including every cabinet department. We continue to pursue and add more sites frequently; to add your site, <a href="mailto:DAP@support.digitalgov.gov" class="external-link">email the Digital Analytics Program</a>.
+          Not every City website is represented in this data.
         </p>
 
         <p>
@@ -349,11 +328,23 @@
         </p>
 
         <p>
-          This open source project is in the public domain, which means that this website and its data are free for you to use without restriction. You can find the <a href="https://github.com/GSA/analytics.usa.gov" class="external-link">code for this website</a> and the <a href="https://github.com/18F/analytics-reporter" class="external-link">code behind the data collection</a> on GitHub.
+          This open source project is in the public domain, which means that this website and its data are free for you to use without restriction. You can find the <a href="https://github.com/CityofSantaMonica/analytics.smgov.net" class="external-link">code for this website</a> and the <a href="https://github.com/18F/analytics-reporter" class="external-link">code behind the data collection</a> on GitHub.
         </p>
 
         <p>
-          We plan to expand the data made available here. If you have any suggestions, or spot any issues or bugs, please <a href="https://github.com/GSA/analytics.usa.gov/issues" class="external-link">open an issue on GitHub</a> or contact the <a href="mailto:DAP@support.digitalgov.gov" class="external-link">Digital Analytics Program</a>.
+          A number of other agencies have implemented similar dashboards using this project, including:
+        </p>
+
+        <ul>
+          <li><a href="https://analytics.usa.gov" class="external-link">U.S. Federal Government</a></li>
+          <li><a href="http://analytics.tdec.tn.gov" class="external-link">Tennessee Department of Environment &amp; Conservation</a></li>
+          <li><a href="https://bouldercolorado.gov/stats" class="external-link">City of Boulder</a></li>
+          <li><a href="http://analytics.phila.gov" class="external-link">City of Philadelphia</a></li>
+          <li><a href="http://analytics.cityofsacramento.org" class="external-link">City of Sacramento</a></li>
+        </ul>
+
+        <p>
+          If you have any suggestions, or spot any issues or bugs with this site, please <a href="https://github.com/CityofSantaMonica/analytics.smgov.net/issues" class="external-link">open an issue on GitHub</a> or contact the <a href="mailto:data@smgov.net" class="external-link">dev team</a>.
         </p>
       </section>
 
@@ -430,7 +421,4 @@
   </script>
 
   <script src="{{ site.baseurl }}/js/index.js"></script>
-
-  <!-- report to oneself -->
-  <script id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=GSA&exts=json"></script>
 </html>
