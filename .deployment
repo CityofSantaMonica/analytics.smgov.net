@@ -1,0 +1,3 @@
+[config]
+command = npm install -g analytics-reporter
+project = _site
