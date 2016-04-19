@@ -2,17 +2,12 @@ exclude:
 - ".jekyll-metadata"
 - ".gitignore"
 - ".travis.yml"
-- todo.txt
 - Gemfile
 - Gemfile.lock
-- Makefile
 - vendor
 - README.md
 - CONTRIBUTING.md
 - LICENSE.md
-- dap.md
-- uxtesting.md
-- work
 - ".sass-cache"
 
 # defaults

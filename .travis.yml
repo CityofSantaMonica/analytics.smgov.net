@@ -2,8 +2,8 @@ language: ruby
 rvm:
   - 2.2
 script:
-  - chmod +x script/build.sh
-  - ./script/build.sh
+  - chmod +x build.sh
+  - ./build.sh
 deploy:
   provider: azure_web_apps
 env:
