@@ -1,22 +1,23 @@
-## analytics.smgov.net
+# analytics.smgov.net
 
-A project to publish website analytics for the City of Santa Monica
+A project to publish website analytics for the City of Santa Monica.
 
-Based on the original by [18F](https://github.com/18F), [analytics.usa.gov](https://analytics.usa.gov)
+Based on the [original](https://github.com/18F/analytics.usa.gov) by
+[18F](https://github.com/18F).
 
 For a detailed description of how the site works, read [18F's blog post on analytics.usa.gov](https://18f.gsa.gov/2015/03/19/how-we-built-analytics-usa-gov/).
 
 Other government agencies who have reused this project for their analytics dashboard:
-* http://analytics.phila.gov/
-* https://bouldercolorado.gov/stats
-* http://analytics.tdec.tn.gov/
+* [U.S. Federal Government](https://analytics.usa.gov/)
+* [Tennessee Department of Environment & Conservation](http://analytics.tdec.tn.gov/)
+* [City of Boulder](https://bouldercolorado.gov/stats)
+* [City of Philadelphia](http://analytics.phila.gov/)
+* [City of Sacramento](http://analytics.cityofsacramento.org)
 
-[This blog post details their implementations and lessons learned](https://18f.gsa.gov/2016/01/05/tips-for-adapting-analytics-usa-gov/).  
+## Developing
 
-
-### Setup
-
-Ths app uses [Jekyll](http://jekyllrb.com) to build the site, and [Sass](http://sass-lang.com/), [Bourbon](http://bourbon.io), and [Neat](http://neat.bourbon.io) for CSS.
+Ths app uses [Jekyll](http://jekyllrb.com) to build the site, and [Sass](http://sass-lang.com/),
+[Bourbon](http://bourbon.io), and [Neat](http://neat.bourbon.io) for CSS.
 
 Install them all:
 
@@ -24,11 +25,20 @@ Install them all:
 bundle install
 ```
 
-[`analytics-reporter`](https://github.com/18F/analytics-reporter) is the code that powers the analytics dashboard.
-Please clone the `analytics-reporter` next to a local copy of this github repository.
+To run locally:
 
-### Adding Additional Agencies
-0. Ensure that data is being collected for a specific agency's Google Analytics ID. Visit [18F's analytics-reporter](https://github.com/18F/analytics-reporter) for more information. Save the url path for the data collection path.
+```bash
+bundle exec jekyll serve --watch --config _config.yml,_configdev.yml
+```
+
+The development settings assume data is available at `/fakedata`. You can change this in `_configdev.yml`.
+
+[`analytics-reporter`](https://github.com/18F/analytics-reporter) is the code that powers the analytics dashboard.
+
+## Adding Additional Agencies
+
+0. Ensure that data is being collected for a specific agency's Google Analytics ID.
+
 0. Create a new html file in the `_agencies` directory. The name of the file will be the url path.
 
   ```bash
@@ -44,70 +54,7 @@ Please clone the `analytics-reporter` next to a local copy of this github reposi
   ---
   ```
 
-
-### Developing locally
-
-Run Jekyll with development settings:
-
-```bash
-make dev
-```
-
-(This runs `bundle exec jekyll serve --watch --config _.yml,_development.yml`.)
-
-Sass can watch the .scss source files for changes, and build the .css files automatically:
-
-```bash
-make watch
-```
-
-To compile the Sass stylesheets once, run `make clean all`, or `make -B` to compile even if the .css file already exists.
-
-### Developing with local data
-
-The development settings assume data is available at `/fakedata`. You can change this in `_development.yml`.
-
-
-### Developing with real live data from `analytics-reporter`
-
-If also working off of local data, e.g. using `analytics-reporter`, you will need to make the data available over HTTP _and_ through CORS.
-
-Various tools can do this. This project recommends using the Node module `serve`:
-
-```bash
-npm install -g serve
-```
-
-Generate data to a directory:
-
-```
-analytics --output [dir]
-```
-
-Then run `serve` from the output directory:
-
-```bash
-serve --cors
-```
-
-The data will be available at `http://localhost:3000` over CORS, with no path prefix. For example, device data will be at `http://localhost:3000/devices.json`.
-
-
-### Deploying the app to production
-
-In production, the site's base URL is set to `http://analytics.smgov.net` and the data's base URL is set to `http://analytics.smgov.net/data/live`.
-
-To deploy this app to `analytics.smgov.net`, you will need authorized access to 18F's Amazon S3 bucket for the project.
-
-To deploy the site using `s3cmd`, production settings, and a **5 minute cache time**, run:
-
-```bash
-make deploy
-```
-
-**Use the full command above.** The full command ensures that the build completes successfully, with production settings, _before_ triggering an upload to the production bucket.
-
-### Public domain
+## Public Domain
 
 This project is in the worldwide [public domain](LICENSE.md). As stated in [CONTRIBUTING](CONTRIBUTING.md):
 
