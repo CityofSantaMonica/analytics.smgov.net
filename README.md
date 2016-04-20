@@ -35,25 +35,6 @@ The development settings assume data is available at `/fakedata`. You can change
 
 [`analytics-reporter`](https://github.com/18F/analytics-reporter) is the code that powers the analytics dashboard.
 
-## Adding Additional Agencies
-
-0. Ensure that data is being collected for a specific agency's Google Analytics ID.
-
-0. Create a new html file in the `_agencies` directory. The name of the file will be the url path.
-
-  ```bash
-  touch _agencies/agencyx.html
-  ```
-0. Set the required data for for the new file. example:
-
-  ```yaml
-  ---
-  name: Agency X # Name of the page
-  data_url: http://analytics.smgov.net/data/agencyx # Data URL from step 1
-  layout: agencies # type of layout used. available layouts are in `_layouts`
-  ---
-  ```
-
 ## Public Domain
 
 This project is in the worldwide [public domain](LICENSE.md). As stated in [CONTRIBUTING](CONTRIBUTING.md):
