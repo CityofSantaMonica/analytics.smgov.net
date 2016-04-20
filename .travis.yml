@@ -2,13 +2,11 @@ language: ruby
 rvm:
   - 2.2
 script:
-  - chmod +x build.sh
-  - ./build.sh
+  - bash .travis/build.sh
 before_deploy:
-  - git add -f _site/ # Deployments respect `.gitignore`, so _site wouldn't be deployed
-  - git commit --amend --no-edit
+  - bash .travis/pre-deploy.sh
 deploy:
   provider: azure_web_apps
 env:
   global:
-  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
