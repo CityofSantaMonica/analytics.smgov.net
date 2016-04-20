@@ -317,38 +317,8 @@
 
       <div class="row">
         <section id="explanation" class="column-wide">
-          <h3>About this Site</h3>
-          <p>
-          This data provides a window into how people are interacting with the City of Santa Monica online. The data is aggregated from Google Analytics accounts managed by the City.
-          </p>
-
-          <p>
-          Not every City website is represented in this data.
-          </p>
-
-          <p>
-          <strong>Top 20 data:</strong> "Now" data includes traffic to a specific, single page&mdash;whereas "7 Days" and "30 Days" data includes traffic to a domain <strong>and</strong> all pages within that domain.
-          </p>
-
-          <p>
-          This open source project is in the public domain, which means that this website and its data are free for you to use without restriction. You can find the <a href="https://github.com/CityofSantaMonica/analytics.smgov.net" class="external-link">code for this website</a> and the <a href="https://github.com/18F/analytics-reporter" class="external-link">code behind the data collection</a> on GitHub.
-          </p>
-
-          <p>
-          A number of other agencies have implemented similar dashboards using this project, including:
-          </p>
-
-          <ul>
-              <li><a href="https://analytics.usa.gov" class="external-link">U.S. Federal Government</a></li>
-              <li><a href="http://analytics.tdec.tn.gov" class="external-link">Tennessee Department of Environment &amp; Conservation</a></li>
-              <li><a href="https://bouldercolorado.gov/stats" class="external-link">City of Boulder</a></li>
-              <li><a href="http://analytics.phila.gov" class="external-link">City of Philadelphia</a></li>
-              <li><a href="http://analytics.cityofsacramento.org" class="external-link">City of Sacramento</a></li>
-          </ul>
-
-          <p>
-              If you have any suggestions, or spot any issues or bugs with this site, please <a href="https://github.com/CityofSantaMonica/analytics.smgov.net/issues" class="external-link">open an issue on GitHub</a> or contact the <a href="mailto:data@smgov.net" class="external-link">dev team</a>.
-          </p>
+          {% capture aboutThisSite %}{% include about.md %}{% endcapture %}
+          {{ aboutThisSite | markdownify }}
         </section>
 
         <section id="data_download" class="column-aside">
