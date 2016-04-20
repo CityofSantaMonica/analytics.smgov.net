@@ -6,6 +6,7 @@ script:
   - ./build.sh
 deploy:
   provider: azure_web_apps
+  verbose: true
 env:
   global:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
