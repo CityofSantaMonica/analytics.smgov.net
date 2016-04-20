@@ -9,6 +9,7 @@ exclude:
 - CONTRIBUTING.md
 - LICENSE.md
 - ".sass-cache"
+- "Azure Deployment.md"
 
 # Site title and description
 title: "analytics.smgov.net | The City of Santa Monica's web traffic."
