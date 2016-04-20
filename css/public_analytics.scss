@@ -41,7 +41,7 @@ $light-gray: #f9f9f9;
 $white: #fff;
 
 // Branding
-$background-color: $light-gray;
+$background-color: $white;
 
 $branding-primary: #00225F;
 $branding-secondary: #23A032;
@@ -56,9 +56,37 @@ $border-radius: 5px;
 $border-width: 1px;
 $font-color: #222;
 $font-color-muted: #555;
+$section-border: $border-width solid $border-color;
 
+// Bootstrap-esque Classes
 
-// Other Setup:
+.row {
+  @include outer-container;
+}
+
+.column-wide {
+  @include span-columns(9);
+  @include media($small-screen)  {
+    @include span-columns(1);
+  }
+}
+
+.column-aside {
+  @include span-columns(5);
+  @include media($small-screen)  {
+    @include span-columns(1);
+  }
+}
+
+.column-third {
+  @include span-columns(3 of 9);
+
+  @include media($small-screen)  {
+    @include span-columns(1);
+  }
+}
+
+// Site Body
 
 body {
   font-family: "Open Sans", Helvetica, arial, sans-serif;
@@ -80,11 +108,14 @@ a:visited {
   color: $branding-primary;
 }
 
-
 .technical-difficulties {
-  color:red;
-  background:#fff;
-  padding-top:1.25em;
+  color: red;
+  background: $white;
+  padding: {
+    left: 1em;
+    right: 1em;
+    top: 1.25em;
+  }
 }
 
 
@@ -211,7 +242,6 @@ header {
 
 
 section {
-  background: $white;
   padding: 1em;
     h2 {
     font-size: 8em;
@@ -234,17 +264,16 @@ section {
 
 .container {
   @include responsive-container;
-  border-left: 1px solid $border-color;
-  border-right: 1px solid $border-color;
-  border-bottom: 1px solid $border-color;
+  border-left: $section-border;
+  border-right: $section-border;
+  border-bottom: $section-border;
   background: $white;
 }
 
 #main_data {
+  border-right: $section-border;
 
-  @include span-columns(9);
   @include media($small-screen)  {
-    @include span-columns(1);
     border-right: none;
   }
 }
@@ -265,12 +294,8 @@ section {
 }
 
 #secondary_data {
-  border-left: 1px solid $border-color;
-
-  @include span-columns(5);
   @include media($small-screen)  {
-    @include span-columns(1);
-    border-top: 1px solid $border-color;
+    border-top: $section-border;
     border-left: none;
     border-right: none;
   }
@@ -285,7 +310,7 @@ section {
 
 #explanation,
 #data_download {
-  border-top: $border-width solid $border-color;
+  border-top: $section-border;
   line-height: 1.6;
 
   h4 {font-size: 90%}
@@ -318,35 +343,12 @@ section {
   @include media($small-screen)  {
     @include span-columns(1);
   }
-
-
 }
 
-.section_headline {
-  padding: 0.1em 1em;
-  border-top: 1px solid $border-color;
+.small-column {
   @include media($small-screen)  {
-    border-bottom: none;
-  }
-}
-
-.section_subheadline {
-  padding: 0.5em 1em;
-  border-top: 1px solid $border-color;
-  text-align: center;
-  font-size: 1.5em;
-  #total_visitors {
-    font-weight: $bold-weight;
-  }
-}
-
-.three_column {
-  @include span-columns(3 of 9);
-
-  @include media($small-screen)  {
-    @include span-columns(1);
     border-left: none;
-    border-top: 1px solid $border-color;
+    border-top: $section-border;
   }
   h4 {
     text-align: center;
@@ -356,6 +358,24 @@ section {
   h5 {
     margin-top: 0;
     text-align: center;
+  }
+}
+
+.section_headline {
+  padding: 0.1em 1em;
+  border-top: $section-border;
+  @include media($small-screen)  {
+    border-bottom: none;
+  }
+}
+
+.section_subheadline {
+  padding: 0.5em 1em;
+  border-top: $section-border;
+  text-align: center;
+  font-size: 1.5em;
+  #total_visitors {
+    font-weight: $bold-weight;
   }
 }
 
