@@ -6,6 +6,7 @@ script:
   - ./build.sh
 before_deploy:
   - git add -f _site/ # Deployments respect `.gitignore`, so _site wouldn't be deployed
+  - git commit --amend --no-edit
 deploy:
   provider: azure_web_apps
 env:
