@@ -10,20 +10,6 @@ exclude:
 - LICENSE.md
 - ".sass-cache"
 
-# defaults
-defaults:
-  -
-    scope:
-      path: ""
-      type: agencies
-    values:
-      layout: default
-
-collections:
-  agencies:
-    output: true
-    permalink: /:path/
-
 # Site title and description
 title: "analytics.smgov.net | The City of Santa Monica's web traffic."
 description: "Official data on web traffic to City of Santa Monica websites."
