@@ -166,12 +166,14 @@ h5 {
 */
 
 header {
-  @include responsive-container;
   background: $branding-primary;
   color: $white;
   border-bottom: 6px solid $branding-secondary;
 
-  .inner { padding: 0 1em; }
+  .inner {
+    @include responsive-container;
+    padding: 0 1em;
+  }
 
   h1 {
     float: left;
