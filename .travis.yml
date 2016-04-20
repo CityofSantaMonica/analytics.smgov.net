@@ -5,11 +5,10 @@ script:
   - chmod +x build.sh
   - ./build.sh
 before_deploy:
-  - rm .gitignore # Deployments respect `.gitignore`, so _site wouldn't be deployed
+  - git add -f _site/ # Deployments respect `.gitignore`, so _site wouldn't be deployed
 deploy:
   provider: azure_web_apps
   skip_cleanup: true
-  verbose: true
 env:
   global:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true

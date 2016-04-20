@@ -111,7 +111,7 @@
         <a href="#explanation" id="about" class="el">
           About <span class="sm-hide">this site</span>
         </a>
-        {% if site.agencies.size > 0 %}
+        {% if site.settings.multi_agency and site.agencies.size > 0 %}
         <div class="el agency-selector-wrap">
           <select class="agency-selector" title="Agency Selection Dropdown">
             <option value="{{site.baseurl}}/">{{site.dropdown_title}}</option>
