@@ -19,5 +19,5 @@ do
     eval $ANALYTICS_CMD --output="data/$domain" --frequency=daily --slim --verbose --csv
   ) &
 
-  sleep 5 # Delay the next call; Google Analytics rate limiting
+  sleep 3 # Delay the next call; Google Analytics rate limiting
 done

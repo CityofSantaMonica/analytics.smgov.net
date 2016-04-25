@@ -8,15 +8,15 @@ cd $HOME
 
 for envFile in envs/*.env
 do
-	(
-		domain=$(basename $envFile)
-		domain=${domain%.*}
+  (
+    domain=$(basename $envFile)
+    domain=${domain%.*}
 
-		mkdir -p "data/$domain"
+    mkdir -p "data/$domain"
 
-		source $envFile
-		eval $ANALYTICS_CMD --output="data/$domain" --frequency=hourly --slim --verbose
-	) &
+    source $envFile
+    eval $ANALYTICS_CMD --output="data/$domain" --frequency=hourly --slim --verbose
+  ) &
 
-  sleep 5 # Delay the next call; Google Analytics rate limiting
+  sleep 3 # Delay the next call; Google Analytics rate limiting
 done
