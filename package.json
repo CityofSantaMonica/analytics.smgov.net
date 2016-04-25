@@ -1,0 +1,11 @@
+{
+  "name": "analytics-smgov",
+  "license": "CC0-1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/CityofSantaMonica/analytics.smgov.net.git"
+  },
+  "dependencies": {
+    "analytics-reporter": "^1.1.2"
+  }
+}

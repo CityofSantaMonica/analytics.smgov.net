@@ -117,10 +117,6 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd - > /dev/null
 fi
 
-# 4. Install analytics-reporter globally
-
-eval $NPM_CMD install -g analytics-reporter
-
 ##################################################################################################################################
 
 # Post deployment stub

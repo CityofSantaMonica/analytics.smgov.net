@@ -5,6 +5,8 @@ export ANALYTICS_KEY=$(echo -e $ANALYTICS_KEY)
 
 cd $HOME
 
+ANALYTICS_CMD="${HOME}/node_modules/analytics-reporter/bin/analytics"
+
 for envFile in "envs/*.env"
 do
 	domain=$(basename $envFile)
@@ -13,6 +15,6 @@ do
 	mkdir -p "data/$domain"
 
 	source $envFile
-	analytics --output="data/$domain" --frequency=realtime --slim --verbose
-	analytics --output="data/$domain" --only=all-pages-realtime --slim --verbose --csv
+	eval $ANALYTICS_CMD --output="data/$domain" --frequency=realtime --slim --verbose
+	eval $ANALYTICS_CMD --output="data/$domain" --only=all-pages-realtime --slim --verbose --csv
 done
