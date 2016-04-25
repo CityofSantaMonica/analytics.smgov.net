@@ -2,18 +2,20 @@
 
 export HOME="$HOME/site/wwwroot"
 export ANALYTICS_KEY=$(echo -e $ANALYTICS_KEY)
+export ANALYTICS_CMD="${HOME}/node_modules/analytics-reporter/bin/analytics"
 
 cd $HOME
 
-ANALYTICS_CMD="${HOME}/node_modules/analytics-reporter/bin/analytics"
-
 for envFile in "envs/*.env"
 do
-	domain=$(basename $envFile)
-	domain=${domain%.*}
+	(
+		domain=$(basename $envFile)
+		domain=${domain%.*}
 
-	mkdir -p "data/$domain"
+		mkdir -p "data/$domain"
+    echo "Polling domain: $domain"
 
-	source $envFile
-	eval $ANALYTICS_CMD --output="data/$domain" --frequency=hourly --slim --verbose
+		source $envFile
+		eval $ANALYTICS_CMD --output="data/$domain" --frequency=hourly --slim --verbose
+	) &
 done
