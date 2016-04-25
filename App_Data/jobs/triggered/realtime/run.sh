@@ -14,5 +14,5 @@ do
 
 	source $envFile
 	analytics --output="data/$domain" --frequency=realtime --slim --verbose
-	#analytics --output="data/$domain" --only=all-pages-realtime --slim --verbose --csv
+	analytics --output="data/$domain" --only=all-pages-realtime --slim --verbose --csv
 done
