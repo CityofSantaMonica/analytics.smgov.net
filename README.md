@@ -1,4 +1,4 @@
-# analytics.smgov.net
+# analytics.smgov.net [![Build Status](https://travis-ci.org/CityofSantaMonica/analytics.smgov.net.svg?branch=master)](https://travis-ci.org/CityofSantaMonica/analytics.smgov.net)
 
 A project to publish website analytics for the City of Santa Monica.
 
