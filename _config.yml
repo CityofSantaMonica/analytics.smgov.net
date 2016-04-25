@@ -11,11 +11,13 @@ exclude:
 - ".sass-cache"
 
 # Site title and description
-title: "analytics.smgov.net | The City of Santa Monica's web traffic."
+title: "analytics.smgov.net"
+slug: "The City of Santa Monica's web traffic."
 description: "Official data on web traffic to City of Santa Monica websites."
 
 # Site's own URL
-url: http://analytics.smgov.net
+#url: http://analytics.smgov.net
+url: http://csmanalytics.azurewebsites.net
 
 # Default dropdown title, will not appear if there are no sub-pages
 dropdown_title: All Participating Websites

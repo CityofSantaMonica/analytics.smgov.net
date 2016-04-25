@@ -1,3 +1,4 @@
+{% capture pageTitle %}{{ site.title }} | {{ site.slug }}{% endcapture %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -31,9 +32,9 @@
     <meta property="og:url" content="{{ site.url }}" />
     <link rel="canonical" href="{{ site.url }}" />
 
-    <title>{{ site.title }}</title>
-    <meta property="og:title" content="{{ site.title }}" />
-    <meta property="og:site_name" content="{{ site.title }}" />
+    <title>{{ pageTitle }}</title>
+    <meta property="og:title" content="{{ pageTitle }}" />
+    <meta property="og:site_name" content="{{ pageTitle }}" />
 
     <meta name="description" content="{{ site.description }}">
     <meta property="og:description" content="{{ site.description }}" />
@@ -327,9 +328,6 @@
           <ul>
               <li>
                 <a href="{{ data_url }}/all-domains-30-days.csv" class="download-data">Visits to all domains over 30 days</a>
-              </li>
-              <li>
-                <a href="{{ data_url }}/top-downloads-yesterday.csv" class="download-data">Top downloads yesterday</a>
               </li>
               <li>
                 <a href="{{ data_url }}/devices.csv" class="download-data">Desktop/mobile/tablet</a>
