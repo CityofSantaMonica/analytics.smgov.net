@@ -311,7 +311,9 @@
       })
       .render(barChart()
         .label(function(d) { return d.page_title; })
-        .value(function(d) { return +d.active_visitors; })
+        .value(function(d) {
+          return (typeof d.visits === 'undefined') ? d.active_visitors : d.visits;
+        })
         .scale(function(values) {
           var max = d3.max(values);
           return d3.scale.linear()
