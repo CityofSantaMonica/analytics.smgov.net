@@ -303,7 +303,7 @@
               return d.page_title;
             })
             .attr("href", function(d) {
-              return exceptions[d.page] || ("http://" + d.page);
+              return exceptions[d.page] || (d.domain + d.page);
             })
             .text(function(d) {
               return title_exceptions[d.page] || d.page_title;
