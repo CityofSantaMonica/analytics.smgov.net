@@ -75,6 +75,15 @@ def aggregate_list_sum_file(fileName, groupKey, sumKey, ignoreKeys = None, sort 
 
     json_file_writer(fileName, action)
 
+def csv_file_writer(fileName, data, fieldnames, sort = None):
+  csvFile = os.path.join(target_folder, os.path.splitext(os.path.basename(fileName))[0] + '.csv')
+
+  with open(csvFile, 'w+') as csv_file:
+    csvwriter = csv.DictWriter(csv_file, fieldnames=fieldnames)
+    csvwriter.writeheader()
+
+    [ csvwriter.writerow(item) for item in sorted(data, key=sort) ]
+
 def aggregate_csv_data(jsonFile, primaryKey, uniqueKey, sumKey, fieldnames, sort = None):
 
   with open(os.path.join(target_folder, jsonFile)) as data_file:
@@ -86,13 +95,8 @@ def aggregate_csv_data(jsonFile, primaryKey, uniqueKey, sumKey, fieldnames, sort
       items = [ item for item in data['data'] if item[primaryKey] == pKey ]
       totals += aggregate_list_sum(items, uniqueKey, sumKey)
 
-    csvFile = os.path.join(target_folder, os.path.splitext(os.path.basename(jsonFile))[0] + '.csv')
+    csv_file_writer(jsonFile, totals, fieldnames, sort)
 
-    with open(csvFile, 'w+') as csv_file:
-      csvwriter = csv.DictWriter(csv_file, fieldnames=fieldnames)
-      csvwriter.writeheader()
-
-      [ csvwriter.writerow(item) for item in sorted(totals, key=sort) ]
 
 # Get all of our agencies and deleted the first item in the list. The first item is a collection
 # of everything in the folder and is safe to skip
@@ -185,11 +189,53 @@ aggregate_list_sum_file('top-countries-realtime.json', groupByKey, sumKey, ignor
 
 
 # Today.json aggregation
+sortCountKey = lambda x: int(x[groupByKey])
 groupByKey = 'hour'
+ignoreKeys = None
 sumKey = 'visits'
-aggregate_list_sum_file('today.json', groupByKey, sumKey, None, lambda x: int(x[groupByKey]))
-aggregate_list_sum_file('last-48-hours.json', groupByKey, sumKey, None, lambda x: int(x[groupByKey]))
+aggregate_list_sum_file('today.json', groupByKey, sumKey, ignoreKeys, sortCountKey)
+aggregate_list_sum_file('last-48-hours.json', groupByKey, sumKey, ignoreKeys, sortCountKey)
+
+
+# Aggregate `users.json`
+aggregate_list_sum_file('users.json', 'date', 'visits', None, lambda x: x['date'])
 
 
 # CSV aggregation
-aggregate_csv_data('browsers.json', 'date', 'browser', 'visits', ['date', 'browser', 'visits'], sort = lambda x: (x['date'], -int(x['visits'])))
+# -----
+
+
+# All of these reports have similar data structures
+aggregationDefinitions = {
+  'browsers.json': 'browser',
+  'devices.json': 'device',
+  'ie.json': 'browser_version',
+  'os.json': 'os',
+  'windows.json': 'os_version'
+}
+
+for k in aggregationDefinitions:
+  v = aggregationDefinitions[k]
+
+  aggregate_csv_data(k, 'date', v, 'visits', ['date', v, 'visits'], sort = lambda x: (x['date'], -int(x['visits'])))
+
+
+# Aggregate the "top pages" reports
+aggregateTopPages = {
+  'all-pages-realtime.json': 'active_visitors',
+  'top-pages-7-days.json': 'visits',
+  'top-pages-30-days.json': 'visits'
+}
+
+for report in aggregateTopPages:
+  with open(os.path.join(target_folder, report)) as json_file:
+    data = json.load(json_file)
+    value = aggregateTopPages[report]
+
+    csv_file_writer(report, data['data'], ['domain', 'page', 'page_title', value], lambda x: -int(x[value]))
+
+
+# Aggregate `users.csv`
+with open(os.path.join(target_folder, 'users.json')) as json_file:
+  data = json.load(json_file)
+  csv_file_writer('users.json', data['data'], ['date', 'visits'], lambda x: x['date'])
