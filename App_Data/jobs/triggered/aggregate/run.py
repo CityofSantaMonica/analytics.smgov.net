@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import itertools
 import json
 import os
 
@@ -29,26 +28,52 @@ def merge_dict_addition(objOne, objTwo):
         except KeyError:
             pass
 
-def aggregate_list_dicts_sum(dataList, groupByKey, addByKey, sortBy=None):
-    cityData = []
-    cities = sorted(dataList, key=lambda x: x[groupByKey])
+def json_file_writer(fileName, function):
+    """
+    Open `fileName` and load it as JSON. Call `function` and write the mutated `data` variable into the original file
+    """
+    with open(os.path.join(target_folder, fileName), 'r+') as data_file:
+        data = json.load(data_file)
 
-    for key, group in itertools.groupby(cities, lambda x: x[groupByKey]):
-        if key == 'zz':
+        function(data)
+
+        data_file.seek(0)
+        json.dump(data, data_file, indent=4)
+        data_file.truncate()
+
+def aggregate_list_sum(data, groupKey, sumKey, ignoreKeys = None):
+    """
+    Loop through a list and sum up the `sumKey` values while treating `groupKey` as a unique ID. The `ignoreKeys` allows
+    for a list of keys to ignore and not return
+    """
+    output = {}
+
+    for item in data:
+        key = item[groupKey]
+
+        if ignoreKeys is not None and key in ignoreKeys:
             continue
 
-        obj = {}
-        obj[groupByKey] = key
-        obj[addByKey] = sum([int(item[addByKey]) for item in group])
+        if key not in output:
+            output[key] = item
+            output[key][sumKey] = int(output[key][sumKey])
+        else:
+            output[key][sumKey] += int(item[sumKey])
 
-        cityData.append(obj)
+    return [ output[item] for item in output]
 
-    if sortBy == None:
-        cityData = sorted(cityData, key=lambda x: (-int(x[addByKey]), x[groupByKey]))
-    else:
-        cityData = sorted(cityData, key=lambda x: (int(x[sortBy])))
+def aggregate_list_sum_file(fileName, groupKey, sumKey, ignoreKeys = None, sort = None):
 
-    return cityData[0:min(len(cityData), data['query']['max-results'])]
+    def action(data):
+        finalData = aggregate_list_sum(data['data'], groupKey, sumKey, ignoreKeys)
+
+        if sort is not None:
+            finalData = sorted(finalData, key = sort)
+
+        data['data'] = finalData[0:min(len(finalData), data['query']['max-results'])]
+
+    json_file_writer(fileName, action)
+
 
 # Get all of our agencies and deleted the first item in the list. The first item is a collection
 # of everything in the folder and is safe to skip
@@ -66,7 +91,10 @@ sortBy = {
     "top-pages-realtime.json": "active_visitors"
 }
 
+
 # Aggregate all of the reports
+# -----
+
 for report in reports[2]:
     if not report.endswith(".json"):
         continue
@@ -112,9 +140,9 @@ for report in reports[2]:
 # Reports that need further, special, aggregation
 # -----
 
-# Consolidate the count of all of the domains
-with open(os.path.join(target_folder, 'realtime.json'), 'r+') as data_file:
-    data = json.load(data_file)
+
+# Sum up the realtime active users for all domains and aggregate them
+def aggregateRealtimeJson(data):
     active_visitors = 0
 
     for site in data['data']:
@@ -122,20 +150,23 @@ with open(os.path.join(target_folder, 'realtime.json'), 'r+') as data_file:
 
     data['data'] = [{ "active_visitors": active_visitors }]
 
-    data_file.seek(0)
-    json.dump(data, data_file, indent=4)
-    data_file.truncate()
+json_file_writer('realtime.json', aggregateRealtimeJson)
 
-def aggregate_list_dict_files(fileName, groupByKey, addByKey, sortBy = None):
-    with open(os.path.join(target_folder, fileName), 'r+') as data_file:
-        data = json.load(data_file)
 
-        data['data'] = aggregate_list_dicts_sum(data['data'], groupByKey, addByKey, sortBy)
+# Cities + Countries Realtime aggregation
+sortCountKey = lambda x: (-int(x[sumKey]), x[groupByKey])
+ignoreKeys = [ 'zz' ]
 
-        data_file.seek(0)
-        json.dump(data, data_file, indent=4)
-        data_file.truncate()
+groupByKey = 'city'
+sumKey = 'active_visitors'
+aggregate_list_sum_file('top-cities-realtime.json', groupByKey, sumKey, ignoreKeys, sortCountKey)
 
-aggregate_list_dict_files('top-cities-realtime.json', 'city', 'active_visitors')
-aggregate_list_dict_files('top-countries-realtime.json', 'country', 'active_visitors')
-aggregate_list_dict_files('today.json', 'hour', 'visits', 'hour')
+groupByKey = 'country'
+aggregate_list_sum_file('top-countries-realtime.json', groupByKey, sumKey, ignoreKeys, sortCountKey)
+
+
+# Today.json aggregation
+groupByKey = 'hour'
+sumKey = 'visits'
+aggregate_list_sum_file('today.json', groupByKey, sumKey, None, lambda x: int(x[groupByKey]))
+aggregate_list_sum_file('last-48-hours.json', groupByKey, sumKey, None, lambda x: int(x[groupByKey]))
