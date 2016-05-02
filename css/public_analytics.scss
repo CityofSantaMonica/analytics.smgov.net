@@ -49,6 +49,8 @@ $branding-secondary: #23A032;
 $chart-color-data: $branding-secondary;
 $chart-color-background: $light-gray;
 
+$header-color-font: $white;
+
 // UI Settings
 $bold-weight: 600;
 $border-color: #e4e4e4;
@@ -167,34 +169,75 @@ h5 {
 
 header {
   background: $branding-primary;
-  color: $white;
   border-bottom: 6px solid $branding-secondary;
+  color: $header-color-font;
 
   .inner {
     @include responsive-container;
-    padding: 0 1em;
+
+    display: table;
+    padding: 1em;
+    width: 100%;
   }
 
-  h1 {
-    float: left;
-    margin-right: 24px;
-    font-size: 36px;
-    @include media($medium-screen) {
-      font-size: 26px;
-      line-height: 30px;
+  .branding,
+  .navigation,
+  .agency-selector-wrap {
+    display: table-cell;
+    vertical-align: middle;
+
+    @include media($small-screen) {
+      display: block;
+      padding: {
+        bottom: 0.5em;
+        top: 0.5em;
+      }
     }
   }
 
-  .el {
-    padding: 20px 0;
-    line-height: 60px;
-    @include media($medium-screen) {
-      line-height: 30px;
+  .branding {
+    h1,
+    img {
+      display: inline-block;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 36px;
+      line-height: 60px;
+      vertical-align: top;
+
+      @include media($medium-screen) {
+        font-size: 22px;
+      }
+    }
+
+    img {
+      margin-right: 10px;
+    }
+
+    @include media($small-screen) {
+      text-align: center;
+    }
+  }
+
+  .agency-selector-wrap {
+    padding: {
+      left: 1em;
+      right: 1em;
+    }
+  }
+
+  .navigation {
+    text-align: right;
+
+    @include media($small-screen) {
+      text-align: center;
     }
   }
 
   a {
-    color: $white;
+    color: $header-color-font;
     font-weight: 300;
     text-decoration: none;
   }
@@ -202,23 +245,7 @@ header {
     text-decoration: underline;
   }
   a:visited {
-    color: $white;
-  }
-}
-
-#about {
-  float: right;
-}
-
-.agency-selector-wrap {
-  width: 50%;
-  float: left;
-  @include media($medium-screen) {
-    width:  80%;
-  }
-  @include media($small-screen)  {
-    width:  100%;
-    float: none;
+    color: $header-color-font;
   }
 }
 
@@ -234,6 +261,7 @@ header {
   border-radius: $border-radius;
 
   @include media($medium-screen) {
+    height: 30px;
     font-size: 16px;
   }
 }
