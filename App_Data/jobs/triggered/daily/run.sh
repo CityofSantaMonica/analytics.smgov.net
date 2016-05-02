@@ -15,8 +15,8 @@ do
     mkdir -p "data/$domain"
 
     source $envFile
-    eval $ANALYTICS_CMD --output="data/$domain" --frequency=daily --slim --verbose
-    eval $ANALYTICS_CMD --output="data/$domain" --frequency=daily --slim --verbose --csv
+    eval $ANALYTICS_CMD --output="data/$domain" --frequency=daily --verbose
+    eval $ANALYTICS_CMD --output="data/$domain" --frequency=daily --verbose --csv
   ) &
 
   sleep 3 # Delay the next call; Google Analytics rate limiting

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import csv
 import json
 import os
 
@@ -60,7 +61,7 @@ def aggregate_list_sum(data, groupKey, sumKey, ignoreKeys = None):
         else:
             output[key][sumKey] += int(item[sumKey])
 
-    return [ output[item] for item in output]
+    return [ output[item] for item in output ]
 
 def aggregate_list_sum_file(fileName, groupKey, sumKey, ignoreKeys = None, sort = None):
 
@@ -74,6 +75,24 @@ def aggregate_list_sum_file(fileName, groupKey, sumKey, ignoreKeys = None, sort 
 
     json_file_writer(fileName, action)
 
+def aggregate_csv_data(jsonFile, primaryKey, uniqueKey, sumKey, fieldnames, sort = None):
+
+  with open(os.path.join(target_folder, jsonFile)) as data_file:
+    data = json.load(data_file)
+    primaryKeys = list({ item[primaryKey] for item in data['data'] })
+    totals = []
+
+    for pKey in primaryKeys:
+      items = [ item for item in data['data'] if item[primaryKey] == pKey ]
+      totals += aggregate_list_sum(items, uniqueKey, sumKey)
+
+    csvFile = os.path.join(target_folder, os.path.splitext(os.path.basename(jsonFile))[0] + '.csv')
+
+    with open(csvFile, 'w+') as csv_file:
+      csvwriter = csv.DictWriter(csv_file, fieldnames=fieldnames)
+      csvwriter.writeheader()
+
+      [ csvwriter.writerow(item) for item in sorted(totals, key=sort) ]
 
 # Get all of our agencies and deleted the first item in the list. The first item is a collection
 # of everything in the folder and is safe to skip
@@ -170,3 +189,7 @@ groupByKey = 'hour'
 sumKey = 'visits'
 aggregate_list_sum_file('today.json', groupByKey, sumKey, None, lambda x: int(x[groupByKey]))
 aggregate_list_sum_file('last-48-hours.json', groupByKey, sumKey, None, lambda x: int(x[groupByKey]))
+
+
+# CSV aggregation
+aggregate_csv_data('browsers.json', 'date', 'browser', 'visits', ['date', 'browser', 'visits'], sort = lambda x: (x['date'], -int(x['visits'])))
