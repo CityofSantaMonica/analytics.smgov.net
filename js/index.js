@@ -254,7 +254,7 @@
       ),
 
     // the top pages block(s)
-    "top-pages": renderBlock()
+    "top-domains": renderBlock()
       .transform(function(d) {
         return d.data;
       })
@@ -286,7 +286,7 @@
         .format(formatCommas)),
 
     // the top pages block(s)
-    "top-pages-realtime": renderBlock()
+    "top-pages": renderBlock()
       .transform(function(d) {
         return d.data;
       })
@@ -303,7 +303,7 @@
               return d.page_title;
             })
             .attr("href", function(d) {
-              return exceptions[d.page] || (d.domain + d.page);
+              return exceptions[d.page] || ("http://" + d.domain + d.page);
             })
             .text(function(d) {
               return title_exceptions[d.page] || d.page_title;
