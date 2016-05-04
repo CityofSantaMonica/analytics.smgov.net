@@ -24,7 +24,7 @@ dropdown_title: All Participating Websites
 
 # Default data url
 #data_url: http://analytics.smgov.net/data
-data_url: http://csmanalytics.azurewebsites.net/data/smgov
+data_url: http://csmanalytics.azurewebsites.net/data
 
 # GitHub information
 org_name: CityofSantaMonica
