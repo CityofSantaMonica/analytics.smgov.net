@@ -80,6 +80,20 @@ def aggregate_list_sum_file(fileName, groupKey, sumKey, ignoreKeys = None, sort 
 
     json_file_writer(fileName, action)
 
+def aggregate_json_data(jsonFile, primaryKey, uniqueKey, sumKey, fieldnames, sort = None):
+
+  def action(data):
+    primaryKeys = list({ item[primaryKey] for item in data['data'] })
+    totals = []
+
+    for pKey in primaryKeys:
+      items = [ item for item in data['data'] if item[primaryKey] == pKey ]
+      totals += aggregate_list_sum(items, uniqueKey, sumKey)
+
+    data['data'] = sorted(totals, key = sort)
+
+  json_file_writer(jsonFile, action)
+
 def csv_file_writer(fileName, data, fieldnames, sort = None):
   csvFile = os.path.join(target_folder, os.path.splitext(os.path.basename(fileName))[0] + '.csv')
 
@@ -89,18 +103,12 @@ def csv_file_writer(fileName, data, fieldnames, sort = None):
 
     [ csvwriter.writerow(item) for item in sorted(data, key=sort) ]
 
-def aggregate_csv_data(jsonFile, primaryKey, uniqueKey, sumKey, fieldnames, sort = None):
+def aggregate_csv_data(jsonFile, fieldnames, sort = None):
 
   with open(os.path.join(target_folder, jsonFile)) as data_file:
     data = json.load(data_file)
-    primaryKeys = list({ item[primaryKey] for item in data['data'] })
-    totals = []
 
-    for pKey in primaryKeys:
-      items = [ item for item in data['data'] if item[primaryKey] == pKey ]
-      totals += aggregate_list_sum(items, uniqueKey, sumKey)
-
-    csv_file_writer(jsonFile, totals, fieldnames, sort)
+    csv_file_writer(jsonFile, data['data'], fieldnames, sort)
 
 
 # Get all of our agencies and deleted the first item in the list. The first item is a collection
@@ -221,8 +229,10 @@ aggregationDefinitions = {
 
 for k in aggregationDefinitions:
   v = aggregationDefinitions[k]
+  sorting = lambda x: (x['date'], -int(x['visits']))
 
-  aggregate_csv_data(k, 'date', v, 'visits', ['date', v, 'visits'], sort = lambda x: (x['date'], -int(x['visits'])))
+  aggregate_json_data(k, 'date', v, 'visits', ['date', v, 'visits'], sorting)
+  aggregate_csv_data(k, ['date', v, 'visits'], sorting)
 
 
 # Aggregate the "top pages" reports
