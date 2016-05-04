@@ -43,8 +43,8 @@ $white: #fff;
 // Branding
 $background-color: $white;
 
-$branding-primary: #00225F;
-$branding-secondary: #23A032;
+$branding-primary: #464646;
+$branding-secondary: #3194b4;
 
 $chart-color-data: $branding-secondary;
 $chart-color-background: $light-gray;
@@ -56,8 +56,9 @@ $bold-weight: 600;
 $border-color: #e4e4e4;
 $border-radius: 5px;
 $border-width: 1px;
-$font-color: #222;
+$font-color: $branding-primary;
 $font-color-muted: #555;
+$hyperlink-color: rgb(0, 181, 172);
 $section-border: $border-width solid $border-color;
 
 // Bootstrap-esque Classes
@@ -93,7 +94,7 @@ $section-border: $border-width solid $border-color;
 body {
   font-family: "Open Sans", Helvetica, arial, sans-serif;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 400;
   color: $font-color;
   background: $background-color;
   margin: 0;
@@ -107,7 +108,13 @@ body {
 
 a,
 a:visited {
-  color: $branding-primary;
+  color: $hyperlink-color;
+  text-decoration: none;
+}
+
+a:hover {
+  color: darken($hyperlink-color, 20%);
+  text-decoration: underline;
 }
 
 .technical-difficulties {
@@ -341,23 +348,9 @@ section {
 #explanation,
 #data_download {
   border-top: $section-border;
-  line-height: 1.6;
+  line-height: 1.4em;
 
   h4 {font-size: 90%}
-
-  ul {
-    font-size: 80%;
-    padding: 0;
-  }
-
-  ul, li {
-    list-style-type: none;
-    list-style-position: inside;
-  }
-
-  li {
-    margin: 1em 0;
-  }
 }
 
 #explanation {
@@ -620,6 +613,7 @@ ul.pills {
     text-overflow: ellipsis;
 
     a {
+      color: $branding-primary;
       text-decoration: none;
     }
     a:hover {
