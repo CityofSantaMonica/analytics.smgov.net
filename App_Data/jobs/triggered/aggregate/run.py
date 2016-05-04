@@ -4,13 +4,21 @@ import csv
 import json
 import os
 
+# The location where agencies individual data is stored; e.g. each agency has its own folder
 report_folder = home_path = os.path.join(
   os.environ['HOME'],
   "site",
   "wwwroot",
   os.environ["ANALYTICS_DATA_PATH"]
 )
+
+# Where the aggregated data will go
 target_folder = report_folder
+
+# Reports that will not be aggregated by this script
+ignored_reports = [
+  'user-activity.json'
+]
 
 def merge_dict_into(objOne, objTwo):
     """
@@ -132,7 +140,7 @@ sortBy = {
 # -----
 
 for report in reports[2]:
-    if not report.endswith(".json"):
+    if not report.endswith(".json") or report in ignored_reports:
         continue
 
     jsonData = []
