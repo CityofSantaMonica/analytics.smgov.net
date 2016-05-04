@@ -41,12 +41,6 @@ This fork has both the Jekyll website and node app (`analytics-reporter`) deploy
 
 Create an [issue](https://github.com/CityofSantaMonica/analytics.smgov.net/issues) or send us a [pull request](https://github.com/CityofSantaMonica/analytics.smgov.net/pulls) on how to improve these notes for deploying to Azure, asking questions, or improving our process.
 
-### Polling Google Analytics
-
-18F provides us with bash scripts and `cron` jobs but they aren't very generic or Azure friendly, so we make use of [Azure WebJobs](https://azure.microsoft.com/en-us/documentation/articles/websites-dotnet-deploy-webjobs/). The `cron` jobs were easily ported over to [Azure's syntax](https://azure.microsoft.com/en-us/documentation/articles/web-sites-create-web-jobs/#CreateScheduledCRON).
-
-WebJobs are placed in `App_Data/jobs/<triggered|continuous>` and each WebJob belongs in its own folder (the name of the folder is arbitrary). By adding a `run.sh` and a `settings.job` file in the folder, the `run.sh` will be executed based on the schedule defined by the `cron` expression located in `settings.job`.
-
 ### Configuring Travis
 
 Travis CI can automatically [deploy to Azure after a successful build](https://docs.travis-ci.com/user/deployment/azure-web-apps) and have the following environment variables set:
@@ -93,9 +87,33 @@ git commit --amend --no-edit
 
 18F [specifies what environment variables](https://github.com/18F/analytics-reporter#setup) are needed in `.env` files. Instead of placing all of them in `.env` files and worry about sensitive information or repetition, we store them as Azure Application Settings.
 
-- `ANALYTICS_REPORT_EMAIL` - `example@analytics.iam.gserviceaccount.com`
-- `ANALYTICS_REPORTS_PATH` - `reports/your-reports.json`
-- `ANALYTICS_KEY` - Copy the `private_key` value from the Google Analytics json file. Keep the `\n` in there and do **not** expand it; the bash scripts will take care of that.
+All of the scripts available have a custom `$HOME` which is set to: `D:\home\site\wwwroot`. All of the paths defined in Azure Application Settings or environment variables should be **relative** to the custom `$HOME` directory; do **not** use absolute paths.
+
+- `ANALYTICS_REPORT_EMAIL` - The email used for your Google developer account; this account is automatically generated for you by Google. This account should have access to the appropriate profiles in Google Analytics.
+
+    e.g. `example@analytics.iam.gserviceaccount.com`
+
+- `ANALYTICS_REPORTS_PATH` - The location of the JSON file that contains all of your reports.
+
+    e.g. `reports/your-reports.json`
+
+- `ANALYTICS_KEY` - Copy the `private_key` value from the Google Analytics json file. Keep all of the `\n`s in there and do **not** expand it; the bash scripts will take care of the expansion; this should be one really long line.
+
+- `ANALYTICS_DATA_PATH` - The folder where all of the Google Analytics data will be stored.
+
+    e.g. `data`
+
+### Polling Google Analytics
+
+18F provides us with bash scripts and `cron` jobs but they aren't very generic or Azure friendly, so we make use of [Azure WebJobs](https://azure.microsoft.com/en-us/documentation/articles/websites-dotnet-deploy-webjobs/). The `cron` jobs were easily ported over to [Azure's syntax](https://azure.microsoft.com/en-us/documentation/articles/web-sites-create-web-jobs/#CreateScheduledCRON).
+
+WebJobs are placed in `App_Data/jobs/<triggered|continuous>` and each WebJob belongs in its own folder (the name of the folder is arbitrary). By adding a `run.sh` and a `settings.job` file in the folder, the `run.sh` will be executed based on the schedule defined by the `cron` expression located in `settings.job`.
+
+Our bash scripts will read every `.env` file inside of `$HOME/envs` and fetch the Google Analytics for each profile. The fetched data will then be placed in a subdirectory with the same name as the `.env` file inside of `ANALYTICS_DATA_PATH`. For example, data for `smgov.env` will be placed at: `$HOME/data/smgov`.
+
+### Data Aggregation
+
+Since we do not have a "One Analytics Account to Rule Them All" like the [DAP](http://www.digitalgov.gov/services/dap/), we are aggregating all of our websites data together. This is a scheduled WebJob which goes through all of the agency directories, `$HOME/$ANALYTICS_DATA_PATH/<agency>` and aggregates all of the data together and outputs them to, `$HOME/$ANALYTICS_DATA_PATH`. Our analytics dashboard now points to the `ANALYTICS_DATA_PATH` folder instead of an individual agency but individual agency data is still available.
 
 ### Configuring Kudu
 

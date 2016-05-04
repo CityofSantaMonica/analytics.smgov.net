@@ -4,7 +4,12 @@ import csv
 import json
 import os
 
-report_folder = 'data'
+report_folder = home_path = os.path.join(
+  os.environ['HOME'],
+  "site",
+  "wwwroot",
+  os.environ["ANALYTICS_DATA_PATH"]
+)
 target_folder = report_folder
 
 def merge_dict_into(objOne, objTwo):
