@@ -41,6 +41,21 @@
       }
     },
     {
+      "name": "user-activity",
+      "frequency": "daily",
+      "query": {
+        "dimensions": ["ga:date", "ga:pagePath", "ga:hostname", "ga:pageTitle"],
+        "metrics": ["ga:sessions", "ga:bounceRate", "ga:pageviews", "ga:uniquePageviews", "ga:avgTimeOnPage", "ga:entrances", "ga:entranceRate", "ga:exits", "ga:exitRate"],
+        "start-date": "yesterday",
+        "end-date": "yesterday",
+        "sort": "ga:date"
+      },
+      "meta": {
+        "name": "User Activity",
+        "description": "User activity on specific pages."
+      }
+    },
+    {
       "name": "users",
       "frequency": "daily",
       "slim": true,
@@ -184,7 +199,7 @@
         "name": "Top Pages (30 Days)",
         "description": "Last 30 days' top 20 pages, measured by page views, for all sites."
       }
-    },    
+    },
     {
       "name": "top-cities-realtime",
       "frequency": "realtime",
