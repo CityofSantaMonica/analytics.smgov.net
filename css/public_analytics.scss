@@ -127,7 +127,6 @@ a:hover {
   }
 }
 
-
 h2 {
   font-size: 4em;
 }
@@ -698,5 +697,77 @@ figure figure {
 
   &.loading {
     opacity: .8;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+.download-squares {
+  font-size: 14px;
+  list-style: none;
+  padding-left: 0;
+
+  @include media($medium-screen) {
+    text-align: center;
+  }
+
+  li {
+    display: inline-block;
+    margin: {
+      bottom: 15px;
+      right: 15px;
+    }
+    text-align: center;
+
+    a {
+        $_size: 125px;
+
+        background-color: $branding-secondary;
+        color: $white;
+        display: table;
+        height: $_size;
+        margin: 0 auto;
+        padding: 15px;
+        text-decoration: none;
+        width: $_size;
+
+        &:hover {
+          background-color: darken($branding-secondary, 10%);
+        }
+
+        @include media($medium-screen) {
+          height: 100px;
+          width: 100px;
+        }
+    }
+  }
+
+  .icon-hero {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+
+    .fa,
+    .fa + .fa {
+      font-size: 35px;
+      padding: 5px;
+
+      @include media($medium-screen) {
+        font-size: 25px;
+      }
+    }
+
+    .fa:only-child {
+      font-size: 55px;
+    }
   }
 }
