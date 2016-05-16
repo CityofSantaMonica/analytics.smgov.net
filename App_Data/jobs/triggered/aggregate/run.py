@@ -3,14 +3,18 @@
 import csv
 import json
 import os
+import sys
 
 # The location where agencies individual data is stored; e.g. each agency has its own folder
-report_folder = home_path = os.path.join(
-  os.environ['HOME'],
-  "site",
-  "wwwroot",
-  os.environ["ANALYTICS_DATA_PATH"]
-)
+if len(sys.argv) > 1:
+  report_folder = sys.argv[1]
+else:
+  report_folder = os.path.join(
+    os.environ['HOME'],
+    "site",
+    "wwwroot",
+    os.environ["ANALYTICS_DATA_PATH"]
+  )
 
 # Where the aggregated data will go
 target_folder = report_folder

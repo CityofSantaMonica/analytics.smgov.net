@@ -12,4 +12,5 @@ _site
 /*.gz
 /*.map
 /work
+analytics.private
 node_modules

@@ -9,6 +9,8 @@ exclude:
 - CONTRIBUTING.md
 - LICENSE.md
 - ".sass-cache"
+- node_modules
+- Makefile
 
 # Site title and description
 title: "analytics.smgov.net"
