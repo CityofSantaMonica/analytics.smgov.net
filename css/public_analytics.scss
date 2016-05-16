@@ -801,6 +801,14 @@ footer {
 
     li {
       margin-left: 30px;
+
+      @include media($small-screen) {
+        margin-left: 10px;
+      }
+
+      &:first-child {
+        margin-left: 0;
+      }
     }
 
     a {
@@ -809,6 +817,18 @@ footer {
       &:hover {
         color: darken($branding-tertiary, 20%);
       }
+    }
+  }
+
+  p, ul {
+    @include media($small-screen) {
+      margin: 5px 0;
+    }
+  }
+
+  .column-half {
+    @include media($small-screen) {
+      text-align: center;
     }
   }
 }
