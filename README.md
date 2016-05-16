@@ -33,6 +33,44 @@ The development settings assume data is available at `/fake-data`. You can chang
 
 [`analytics-reporter`](https://github.com/18F/analytics-reporter) is the code that powers the dashboard by pulling data from Google Analytics.
 
+## Reporting
+
+The report definitions are JSON objects defined inside of a `reports` JSON array. In this repository, the report definitions are stored inside of the `reports` folder.
+
+```
+{
+  "reports": [
+    {
+      "name": "report-name",
+      "frequency": "daily",
+      "query": {
+        "dimensions": [ "ga:pagePath", "ga:pageTitle" ],
+        "metrics": [ "ga:sessions" ],
+        "start-date": "yesterday",
+        "end-date": "today"
+      },
+      "meta": {
+        "name": "Dummy Report",
+        "description": "Sample report definition to show the structure of a report"
+      }
+    }
+  ]
+}
+```
+
+### JSON Object Structure
+
+- `name` - The name of the report, this will be the resulting file name for the reports
+- `frequency` - Corresponds to the `--frequency` command line option. This option does **not** automagically create cron jobs; separate cron jobs or WebJobs are required.
+- `query`
+  - `dimensions` & `metrics` - Valid values can be found in the [Google Analytics Docs](https://developers.google.com/analytics/devguides/reporting/core/dimsmets)
+  - `start-date` or `end-date` - Time period for the report
+    - `today`
+    - `yesterday`
+    - `7daysAgo`
+    - `30daysAgo`
+    - `90daysAgo`
+
 ## Deploying
 
 18F's original [analytics dashboard](https://github.com/18F/analytics.usa.gov) was written with a Linux environment and [18F pages](https://github.com/18F/pages) in mind. For this project, we've ported 18F's work into an [Azure Web App](https://azure.microsoft.com/en-us/services/app-service/web/).

@@ -1,6 +1,23 @@
 {
   "reports": [
     {
+      "name": "all-pages",
+      "frequency": "daily",
+      "query": {
+        "dimensions": ["ga:hostname", "ga:pagePath", "ga:pageTitle"],
+        "metrics": [
+          "ga:entrances", "ga:entranceRate", "ga:pageviews", "ga:uniquePageviews",
+          "ga:bounces", "ga:bounceRate", "ga:avgTimeOnPage", "ga:exits", "ga:exitRate"
+        ],
+        "start-date": "yesterday",
+        "end-date": "today"
+      },
+      "meta": {
+        "name": "All pages",
+        "description": "Data regarding each and every page"
+      }
+    },
+    {
       "name": "realtime",
       "frequency": "realtime",
       "realtime": true,
