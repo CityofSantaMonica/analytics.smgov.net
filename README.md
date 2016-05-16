@@ -127,6 +127,8 @@ git commit --amend --no-edit
 
 All of the scripts available have a custom `$HOME` which is set to: `D:\home\site\wwwroot`. All of the paths defined in Azure Application Settings or environment variables should be **relative** to the custom `$HOME` directory; do **not** use absolute paths.
 
+#### Google Analytics
+
 - `ANALYTICS_REPORT_EMAIL` - The email used for your Google developer account; this account is automatically generated for you by Google. This account should have access to the appropriate profiles in Google Analytics.
 
     e.g. `example@analytics.iam.gserviceaccount.com`
@@ -140,6 +142,15 @@ All of the scripts available have a custom `$HOME` which is set to: `D:\home\sit
 - `ANALYTICS_DATA_PATH` - The folder where all of the Google Analytics data will be stored.
 
     e.g. `data`
+
+#### Socrata
+
+The `socrata/run.py` WebJob will look and require these values to push data to Socrata.
+
+- `SOCRATA_HOST` - The Socrata host
+- `SOCRATA_APPTOKEN` - Reduces throttling with API calls with an [App Token](https://dev.socrata.com/docs/app-tokens.html)
+- `SOCRATA_USER` & `SOCRATA_PASS` - For basic HTTP authentication
+- `SOCRATA_RESOURCEID` - The 4x4 ID of the dataset
 
 ### Polling Google Analytics
 
