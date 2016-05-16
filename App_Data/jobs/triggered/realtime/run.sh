@@ -16,7 +16,6 @@ do
 
     source $envFile
     eval $ANALYTICS_CMD --output="$ANALYTICS_DATA_PATH/$domain" --frequency=realtime --verbose
-    eval $ANALYTICS_CMD --output="$ANALYTICS_DATA_PATH/$domain" --only=all-pages-realtime --verbose --csv
   ) &
 
   sleep 3 # Delay the next call; Google Analytics rate limiting
