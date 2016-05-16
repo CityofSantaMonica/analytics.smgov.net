@@ -211,6 +211,8 @@ header {
   }
 
   .branding {
+    $_height: 100px;
+
     h1,
     img {
       display: inline-block;
@@ -219,7 +221,7 @@ header {
     h1 {
       margin: 0;
       font-size: 36px;
-      line-height: 100px;
+      line-height: $_height;
       vertical-align: top;
 
       @include media($medium-screen) {
@@ -228,6 +230,7 @@ header {
     }
 
     img {
+      height: $_height;
       margin-right: 10px;
     }
 
