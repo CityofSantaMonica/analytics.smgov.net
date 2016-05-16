@@ -178,7 +178,7 @@
         "dimensions": ["rt:pagePath", "rt:pageTitle"],
         "metrics": ["rt:activeUsers"],
         "sort": "-rt:activeUsers",
-        "max-results": "20"
+        "max-results": "30"
       },
       "meta": {
         "name": "Top Pages (Live)",
@@ -194,7 +194,7 @@
         "start-date": "7daysAgo",
         "end-date": "yesterday",
         "sort": "-ga:pageviews",
-        "max-results": "20"
+        "max-results": "30"
       },
       "meta": {
         "name": "Top Pages (7 Days)",
@@ -210,7 +210,7 @@
         "start-date": "30daysAgo",
         "end-date": "yesterday",
         "sort": "-ga:pageviews",
-        "max-results": "20"
+        "max-results": "30"
       },
       "meta": {
         "name": "Top Pages (30 Days)",
