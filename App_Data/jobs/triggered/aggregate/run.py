@@ -139,6 +139,12 @@ sortBy = {
     "top-pages-realtime.json": "active_visitors"
 }
 
+# These keys need to be stripped from the respective reports
+stripKeys = {
+    "top-countries-realtime.json": ['domain'],
+    "top-cities-realtime.json": ['domain']
+}
+
 
 # Aggregate all of the reports
 # -----
@@ -180,6 +186,11 @@ for report in reports[2]:
         jsonData['data'] = sortedData[0:min(len(sortedData), jsonData['query']['max-results'])]
     except KeyError:
         pass
+
+    if report in stripKeys:
+        for item in jsonData['data']:
+            for key in stripKeys[report]:
+                del item[key]
 
     with open(os.path.join(target_folder, report), 'w+') as results_file:
         json.dump(jsonData, results_file, indent=4)
