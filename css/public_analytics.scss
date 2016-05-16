@@ -45,6 +45,8 @@ $background-color: $white;
 
 $branding-primary: #464646;
 $branding-secondary: #3194b4;
+$branding-tertiary: #f4e529;
+$branding-quaternary: #CE3F78;
 
 $chart-color-data: $branding-secondary;
 $chart-color-background: $light-gray;
@@ -65,6 +67,13 @@ $section-border: $border-width solid $border-color;
 
 .row {
   @include outer-container;
+}
+
+.column-half {
+  @include span-columns(7);
+  @include media($small-screen) {
+    @include span-columns(1);
+  }
 }
 
 .column-wide {
@@ -768,6 +777,38 @@ figure figure {
 
     .fa:only-child {
       font-size: 55px;
+    }
+  }
+}
+
+.list-inline {
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    display: inline-block;
+  }
+}
+
+footer {
+  background-color: $branding-primary;
+  border-top: 6px solid $branding-secondary;
+  color: $white;
+  padding: 30px 1em;
+
+  .links {
+    text-align: right;
+
+    li {
+      margin-left: 30px;
+    }
+
+    a {
+      color: $branding-tertiary;
+
+      &:hover {
+        color: darken($branding-tertiary, 20%);
+      }
     }
   }
 }
