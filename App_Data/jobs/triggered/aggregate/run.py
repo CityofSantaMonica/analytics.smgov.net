@@ -4,6 +4,7 @@ import csv
 import json
 import os
 import sys
+from random import shuffle
 
 # The location where agencies individual data is stored; e.g. each agency has its own folder
 if len(sys.argv) > 1:
@@ -182,7 +183,15 @@ for report in reports[2]:
             pass
 
     try:
-        sortedData = sorted(jsonData['data'], key=lambda x: -int(x[sortBy[report]]))
+        sortKey = sortBy[report]
+        sortedData = sorted(jsonData['data'], key=lambda x: -int(x[sortKey]))
+
+        moreThanOneViewer = [item for item in sortedData if int(item[sortKey]) > 1]
+        onlyOneViewer = [item for item in sortedData if int(item[sortKey]) == 1]
+
+        shuffle(onlyOneViewer)
+        sortedData = moreThanOneViewer + onlyOneViewer
+        
         jsonData['data'] = sortedData[0:min(len(sortedData), jsonData['query']['max-results'])]
     except KeyError:
         pass
