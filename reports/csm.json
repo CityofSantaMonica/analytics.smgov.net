@@ -2,10 +2,5 @@
 ---
 
 {
-  "reports": [
-    {% for report in site.reports %}
-      {{ report | reports_jsonify }}
-      {% if forloop.last == false %},{% endif %}
-    {% endfor %}
-  ]
+  "reports": {{ site.reports | collection_jsonify: true }}
 }

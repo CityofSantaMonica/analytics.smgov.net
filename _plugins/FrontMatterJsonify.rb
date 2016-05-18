@@ -1,18 +1,19 @@
 module Jekyll
   module FrontMatterJsonify
-    def reports_jsonify(collection_item)
-      # These are keys defined by Jekyll that don't mean anything to analytics-reporter
-      keys_to_ignore = [
-        'next', 'previous', 'path', 'id', 'output', 'content', 'to_s',
-        'relative_path', 'url', 'collection', 'excerpt', 'draft', 'categories',
-        'title', 'slug', 'ext', 'tags', 'date'
-      ]
-      results = {}
+    # These are keys defined by Jekyll that don't mean anything to analytics-reporter
+    JekyllKeys = [
+      'next', 'previous', 'path', 'id', 'output', 'content', 'to_s',
+      'relative_path', 'url', 'collection', 'excerpt', 'draft', 'categories',
+      'title', 'slug', 'ext', 'tags', 'date'
+    ]
 
-      collection_item.keys.each do |key|
-        if not keys_to_ignore.include? key
-          results[key] = collection_item[key]
-        end
+    def collection_jsonify(collection, ignore_jekyll_keys = false)
+      results = []
+
+      collection.each do |item|
+        JekyllKeys.each{ |k| item.data.delete(k) } if ignore_jekyll_keys
+
+        results << item.data
       end
 
       results.to_json
