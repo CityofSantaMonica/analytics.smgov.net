@@ -35,6 +35,10 @@ repo_name: analytics.smgov.net
 # twitter information
 twitter: santamonicacity
 
+# Reporting
+collections:
+  - reports
+
 # site settings
 settings:
   multi_agency: false
