@@ -12,7 +12,7 @@ Other government agencies who have reused this project for their analytics dashb
 * [City of Philadelphia](http://analytics.phila.gov/)
 * [City of Sacramento](http://analytics.cityofsacramento.org)
 
-These notes represent an evolving effort. Create an [issue](https://github.com/CityofSantaMonica/analytics.smgov.net/issues) or send us a [pull request](https://github.com/CityofSantaMonica/analytics.smgov.net/pulls) if you have questions or suggestions about anything outline below.
+These notes represent an evolving effort. Create an [issue](https://github.com/CityofSantaMonica/analytics.smgov.net/issues) or send us a [pull request](https://github.com/CityofSantaMonica/analytics.smgov.net/pulls) if you have questions or suggestions about anything outlined below.
 
 ## Developing
 
@@ -41,9 +41,9 @@ The report definitions are specified as JSON objects. In this repository, indivi
 
 ### JSON Structure
 
-An individual report definition looks like the following:
+An individual report definition looks like:
 
-```
+```json
 {
   "name": "report-name",
   "frequency": "daily",
@@ -82,7 +82,7 @@ This fork has both the Jekyll website and node app (`analytics-reporter`) deploy
 
 ### Travis CI
 
-Travis can automatically [deploy to Azure after a successful build](https://docs.travis-ci.com/user/deployment/azure-web-apps) and have the following environment variables set:
+Travis can automatically [deploy to Azure after a successful build](https://docs.travis-ci.com/user/deployment/azure-web-apps) using the following environment variables within Travis:
 
 - `AZURE_WA_SITE` - the name of the Azure Web App
 - `AZURE_WA_USERNAME` - the git/deployment username, configured in the Azure Web App settings
@@ -110,11 +110,11 @@ env:
 
 ```
 
-We are calling two separate scripts for Travis to execute. The first script is the `.build.sh` script which actually builds the Jekyll website (into the `_site` folder as per Jekyll convention).
+We are calling two separate scripts for Travis to execute. The first script is the `.travis/build.sh` script which actually builds the Jekyll website (into the `_site` folder as per Jekyll convention).
 
 > In our case, we have a "fake-data" folder for development so we remove that before we build the final website.
 
-The second script (`pre-deploy.sh`) is called before we deploy everything to Azure. Content is deployed to Azure via git, meaning `.gitignore` is respected and the compiled `_site` wouldn't be deployed to Azure.
+The second script (`.travis/pre-deploy.sh`) is called before we deploy everything to Azure. Content is deployed to Azure via git, meaning `.gitignore` is respected and the compiled `_site` wouldn't be deployed to Azure.
 
 To fix this, the pre-deploy script gives Travis an identity for git, forcefully adds the `_site` directory, and amends the commit we were just building:
 
@@ -155,7 +155,7 @@ This WebJob executes a bash script that reads every `.env` file inside of `$HOME
 
 ### Google Analytics Configuration
 
-These Azure Application Settings are required for interaction with the Google Analytics API (via `analytics-reporter`):
+These Azure Application Settings are required for interaction with the Google Analytics API (via `analytics-reporter`); *these should be relative to `$HOME` (see above)*:
 
 - `ANALYTICS_REPORT_EMAIL` - The email used for your Google developer account; this account is automatically generated for you by Google. This account should have access to the appropriate profiles in Google Analytics.
 
@@ -175,7 +175,7 @@ These Azure Application Settings are required for interaction with the Google An
 
 ## Data Aggregation
 
-Since we do not have "One Analytics Account to Rule Them All" like the [DAP](http://www.digitalgov.gov/services/dap/), we are aggregating individual websites together. This is a scheduled WebJob (using Python) which goes through all of the agency directories, `$HOME/$ANALYTICS_DATA_PATH/<agency>` and aggregates all of the data together and outputs them to, `$HOME/$ANALYTICS_DATA_PATH`.
+Since we do not have "One Analytics Account to Rule Them All" like the [DAP](http://www.digitalgov.gov/services/dap/), we are aggregating individual websites together. A scheduled WebJob (using Python) goes through all of the agency directories, `$HOME/$ANALYTICS_DATA_PATH/<agency>` and aggregates all of the data together and outputs them to, `$HOME/$ANALYTICS_DATA_PATH`.
 
 Our analytics dashboard then points to the `ANALYTICS_DATA_PATH` folder instead of an individual agency; individual agency data is still available at the subdirectory level.
 
