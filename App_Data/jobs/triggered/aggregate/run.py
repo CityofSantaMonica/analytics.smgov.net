@@ -38,14 +38,24 @@ def merge_dict_addition(objOne, objTwo):
     """
     Merge two objects and add the respective values to get a total of both
     """
+    if not objOne:
+    	return objTwo
+
+    if not objTwo:
+    	return objOne
+
+    newObj = {}
+
     for key in objOne:
         try:
             if isinstance(objOne[key], (int, list, tuple)):
-                objOne[key] += objTwo[key]
+                newObj[key] = objOne[key] + objTwo[key]
             elif isinstance(objOne[key], dict):
-                merge_dict_addition(objOne[key], objTwo[key])
+                newObj[key] = merge_dict_addition(objOne[key], objTwo[key])
         except KeyError:
             pass
+
+    return newObj
 
 def json_file_writer(fileName, function):
     """
@@ -175,7 +185,7 @@ for report in reports[2]:
                     pass
 
                 try:
-                    merge_dict_addition(jsonData['totals'], data['totals'])
+                    jsonData['totals'] = merge_dict_addition(jsonData['totals'], data['totals'])
                 except KeyError:
                     pass
 
@@ -191,7 +201,7 @@ for report in reports[2]:
 
         shuffle(onlyOneViewer)
         sortedData = moreThanOneViewer + onlyOneViewer
-        
+
         jsonData['data'] = sortedData[0:min(len(sortedData), jsonData['query']['max-results'])]
     except KeyError:
         pass
