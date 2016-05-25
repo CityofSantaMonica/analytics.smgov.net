@@ -4,8 +4,6 @@ This data provides a window into how people are interacting with the City of San
 
 Not every City website is represented in this data.
 
-**Top 20 data:** "Now" data includes traffic to a specific, single page&mdash;whereas "7 Days" and "30 Days" data includes traffic to a domain **and** all pages within that domain.
-
 This open source project is in the public domain, which means that this website and its data are free for you to use without restriction. You can find the [code for this website](https://github.com/{{ site.org_name }}/{{ site.repo_name }}) and the [code behind the data collection](https://github.com/18F/analytics-reporter) on GitHub.
 
 A number of other agencies have implemented similar dashboards using this project, including:

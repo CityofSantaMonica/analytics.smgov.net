@@ -181,7 +181,7 @@ Our analytics dashboard then points to the `ANALYTICS_DATA_PATH` folder instead 
 
 ## Archiving to Socrata
 
-Because the data files powering the dashboard are constantly being overwritten, we have another Python WebJob that takes the daily analytics reports and snapshots them in to our [open data portal](https://data.smgov.net).
+Because the data files powering the dashboard are constantly being overwritten, we have another Python WebJob that takes the daily analytics reports and snapshots them in to our [open data portal](https://data.smgov.net/Public-Services/Web-Analytics/8dh4-6epx).
 
 ### Socrata Configuration
 

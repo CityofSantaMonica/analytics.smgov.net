@@ -334,7 +334,47 @@
 
         <section id="data_download" class="column-aside">
           <h3>Download the Data</h3>
-          <h4>Updated daily (CSV)</h4>
+
+          <h4>Updated and overwritten every two minutes</h4>
+          <ul class="download-squares">
+              <li>
+                <a href="{{ data_url }}/all-pages-realtime.csv">
+                  <div class="icon-hero" aria-hidden="true">
+                    <i class="fa fa-fw fa-columns"></i>
+                  </div>
+                  <p class="sr-only">Download data for all pages people are visiting</p>
+                </a>
+                All pages (CSV)
+              </li>
+              <li>
+                <a href="{{ data_url }}/top-countries-realtime.json">
+                  <div class="icon-hero" aria-hidden="true">
+                    <i class="fa fa-fw fa-globe"></i>
+                  </div>
+                  <p class="sr-only">Download visitors per country</p>
+                </a>
+                Countries (JSON)
+              </li>
+              <li>
+                <a href="{{ data_url }}/top-cities-realtime.json">
+                  <div class="icon-hero" aria-hidden="true">
+                    <i class="fa fa-fw fa-building"></i>
+                  </div>
+                  <p class="sr-only">Download visitors per city</p>
+                </a>
+                Cities (JSON)
+              </li>
+              <li>
+                <a href="{{ data_url }}/realtime.json">
+                  <div class="icon-hero" aria-hidden="true">
+                    <i class="fa fa-fw fa-users"></i>
+                  </div>
+                </a>
+                Total people (JSON)
+              </li>
+          </ul>
+
+          <h4>Updated and overwritten daily (CSV)</h4>
           <ul class="download-squares">
               <li>
                 <a href="{{ data_url }}/devices.csv">
@@ -343,7 +383,7 @@
                     <i class="fa fa-fw fa-tablet"></i>
                     <i class="fa fa-fw fa-mobile-phone"></i>
                   </div>
-                  <p class="sr-only">Download data regrading devices visiting the websites</p>
+                  <p class="sr-only">Download data regarding devices visiting the websites</p>
                 </a>
                 Devices
               </li>
@@ -390,45 +430,18 @@
               </li>
           </ul>
 
-          <h4>Updated every two minutes</h4>
-
+          <h4>Daily archive</h4>
+          <p>We take the daily pages snapshots and archive them in to our open data portal.</p>
           <ul class="download-squares">
               <li>
-                <a href="{{ data_url }}/all-pages-realtime.csv">
+                <a href="https://data.smgov.net/Public-Services/Web-Analytics/8dh4-6epx" target="_blank">
                   <div class="icon-hero" aria-hidden="true">
-                    <i class="fa fa-fw fa-columns"></i>
+                    <i class="fa fa-fw fa-table"></i>
                   </div>
-                  <p class="sr-only">Download data for all pages people are visiting</p>
+                  <p class="sr-only">View and download daily archived data</p>
                 </a>
-                All pages (CSV)
+                All pages archive
               </li>
-              <li>
-                <a href="{{ data_url }}/top-countries-realtime.json">
-                  <div class="icon-hero" aria-hidden="true">
-                    <i class="fa fa-fw fa-globe"></i>
-                  </div>
-                  <p class="sr-only">Download visitors per country</p>
-                </a>
-                Countries (JSON)
-              </li>
-              <li>
-                <a href="{{ data_url }}/top-cities-realtime.json">
-                  <div class="icon-hero" aria-hidden="true">
-                    <i class="fa fa-fw fa-building"></i>
-                  </div>
-                  <p class="sr-only">Download visitors per city</p>
-                </a>
-                Cities (JSON)
-              </li>
-              <li>
-                <a href="{{ data_url }}/realtime.json">
-                  <div class="icon-hero" aria-hidden="true">
-                    <i class="fa fa-fw fa-users"></i>
-                  </div>
-                </a>
-                Total people (JSON)
-              </li>
-          </ul>
         </section>
       </div>
     </main>
@@ -437,13 +450,13 @@
       <div class="inner">
         <div class="row">
           <div class="column-half">
-            <p>Copyright &copy; {{ 'now' | date: '%Y' }}</p>
+            <p>Copyright &copy; {{ 'now' | date: '%Y' }} City of Santa Monica</p>
           </div>
           <div class="column-half links">
             <ul class="list-inline">
               <li><a href="http://www.smgov.net">City Website</a></li>
-              <li><a href="http://open.smgov.net">Open Data</a></li>
-              <li><a href="https://data.smgov.net/">Socrata</a></li>
+              <li><a href="http://open.smgov.net">Open SMGov</a></li>
+              <li><a href="https://data.smgov.net/">Open Data</a></li>
             </ul>
           </div>
         </div>
