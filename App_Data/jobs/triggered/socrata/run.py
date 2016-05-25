@@ -54,4 +54,4 @@ with open(os.path.join(report_folder, 'all-pages.json')) as json_file:
         if key in percentages:
           page[key] = round(float(page[key]), 2)
 
-  soda_client.replace(os.environ["SOCRATA_RESOURCEID"], data['data'])
+  soda_client.upsert(os.environ["SOCRATA_RESOURCEID"], data['data'])
