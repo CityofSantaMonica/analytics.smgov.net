@@ -22,11 +22,13 @@ fetch:
 		domain=$$(basename $$envFile); \
 		domain=$${domain%.*}; \
 		mkdir -p "data/$$domain"; \
+		echo "--- Start $$domain ---"; \
 		source $$envFile; \
 		eval $$ANALYTICS_CMD --output="$$ANALYTICS_DATA_PATH/$$domain" --frequency=daily --verbose; \
 		eval $$ANALYTICS_CMD --output="$$ANALYTICS_DATA_PATH/$$domain" --frequency=hourly --verbose; \
 		eval $$ANALYTICS_CMD --output="$$ANALYTICS_DATA_PATH/$$domain" --frequency=realtime --verbose; \
 		eval $$ANALYTICS_CMD --output="$$ANALYTICS_DATA_PATH/$$domain" --only=all-pages-realtime --verbose --csv; \
+		echo "--- End $$domain ---"; \
 		sleep 3; done
 
 fetch-all: fetch aggregate

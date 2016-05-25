@@ -3,6 +3,7 @@
 import csv
 import json
 import os
+import shutil
 import sys
 from random import shuffle
 
@@ -18,7 +19,13 @@ else:
   )
 
 # Where the aggregated data will go
-target_folder = report_folder
+target_folder = report_folder + "_aggregation"
+
+# Make a temporary folder for data aggregation
+if os.path.exists(target_folder):
+  shutil.rmtree(target_folder)
+
+os.mkdir(target_folder)
 
 # Reports that will not be aggregated by this script
 ignored_reports = [
@@ -296,3 +303,16 @@ for report in aggregateTopPages:
 with open(os.path.join(target_folder, 'users.json')) as json_file:
   data = json.load(json_file)
   csv_file_writer('users.json', data['data'], ['date', 'visits'], lambda x: x['date'])
+
+
+# Copy all of the aggregated files into the final directory
+src_files = os.listdir(target_folder)
+
+for file_name in src_files:
+    full_file_name = os.path.join(target_folder, file_name)
+
+    if (os.path.isfile(full_file_name)):
+        shutil.copy(full_file_name, report_folder)
+
+# Delete the temporary folder
+shutil.rmtree(target_folder)
