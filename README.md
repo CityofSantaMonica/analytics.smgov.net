@@ -83,9 +83,10 @@ Create an [issue](https://github.com/CityofSantaMonica/analytics.smgov.net/issue
 
 Travis CI can automatically [deploy to Azure after a successful build](https://docs.travis-ci.com/user/deployment/azure-web-apps) and have the following environment variables set:
 
-- `AZURE_WA_USERNAME` - The Git/Deployment username located in the portal
-- `AZURE_WA_PASSWORD` - The password of the above user; also located in the portal
 - `AZURE_WA_SITE` - The name of the actual Web App
+- `AZURE_WA_USERNAME` - The Git/Deployment username located in the portal
+- `AZURE_WA_PASSWORD` - The password of the above user
+  - **Heads up!** Travis sends this password in the remote URL (i.e. `https://user:password@domain.com/repo.git`), so be careful with special characters in your passwords.
 
 #### Setting Up Our Scripts
 
