@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 
-import json
 import os
-import re
 import sys
+
+sitepackage = os.path.join(
+  os.environ['HOME'], "site", "wwwroot",
+  "pyenv", "lib", "python2.7", "site-packages"
+)
+sys.path.append(sitepackage)
+
+import json
+import re
 from datetime import datetime, timedelta
 from sodapy import Socrata
 
