@@ -18,15 +18,13 @@ slug: "The City of Santa Monica's web traffic."
 description: "Official data on web traffic to City of Santa Monica websites."
 
 # Site's own URL
-#url: http://analytics.smgov.net
-url: http://csmanalytics.azurewebsites.net
+url: http://analytics.smgov.net
 
 # Default dropdown title, will not appear if there are no sub-pages
 dropdown_title: All Participating Websites
 
 # Default data url
-#data_url: http://analytics.smgov.net/data
-data_url: http://csmanalytics.azurewebsites.net/data
+data_url: http://analytics.smgov.net/data
 
 # GitHub information
 org_name: CityofSantaMonica
