@@ -2,6 +2,9 @@ language: ruby
 cache: bundler
 rvm:
   - 2.2
+install:
+  - export PATH=$HOME/.local/bin:$PATH
+  - pip install --user `whoami` virtualenv
 script:
   - bash .travis/build.sh
 before_deploy:
