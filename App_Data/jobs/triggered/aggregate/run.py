@@ -127,7 +127,7 @@ def aggregate_json_data(jsonFile, primaryKey, uniqueKey, sumKey, fieldnames, sor
 def csv_file_writer(fileName, data, fieldnames, sort = None):
   csvFile = os.path.join(target_folder, os.path.splitext(os.path.basename(fileName))[0] + '.csv')
 
-  with open(csvFile, 'w+') as csv_file:
+  with open(csvFile, 'wb+') as csv_file:
     csvwriter = csv.DictWriter(csv_file, fieldnames=fieldnames)
     csvwriter.writeheader()
 
