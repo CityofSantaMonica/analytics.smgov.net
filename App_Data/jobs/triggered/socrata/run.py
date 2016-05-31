@@ -45,10 +45,12 @@ percentages = [
 
 with open(os.path.join(report_folder, 'all-pages.json')) as json_file:
   data = json.load(json_file)
-  datestamp = datetime.strptime(data['taken_at'], "%Y-%m-%dT%H:%M:%S.%fZ")
+  taken_at = datetime.strptime(data['taken_at'], "%Y-%m-%dT%H:%M:%S.%fZ")
+  datestamp = (taken_at - timedelta(days=1)).strftime('%Y-%m-%d')
 
   for page in data['data']:
-    page['date'] = (datestamp - timedelta(days=1)).strftime('%Y-%m-%d')
+    page['date'] = datestamp
+    page['id'] = datestamp + page['domain'] + page['page']
 
     for item in page.keys():
       if item == 'visits':
