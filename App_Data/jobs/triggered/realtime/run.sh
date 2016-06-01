@@ -15,7 +15,12 @@ do
     mkdir -p "data/$domain"
 
     source $envFile
-    eval $ANALYTICS_CMD --output="$ANALYTICS_DATA_PATH/$domain" --frequency=realtime --verbose
+
+    if [ "$REALTIME" = true ]
+    then
+      echo "Running $domain as realtime..."
+      eval $ANALYTICS_CMD --output="$ANALYTICS_DATA_PATH/$domain" --frequency=realtime --verbose
+    fi
   ) &
 
   sleep 3 # Delay the next call; Google Analytics rate limiting
