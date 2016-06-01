@@ -20,6 +20,7 @@ soda_client = Socrata(
   username=os.environ["SOCRATA_USER"],
   password=os.environ["SOCRATA_PASS"]
 )
+soda_batch_size = 950
 
 # The location where agencies individual data is stored; e.g. each agency has its own folder
 if len(sys.argv) > 1:
@@ -63,4 +64,7 @@ with open(os.path.join(report_folder, 'all-pages.json')) as json_file:
         if key in percentages:
           page[key] = round(float(page[key]), 2)
 
-  soda_client.upsert(os.environ["SOCRATA_RESOURCEID"], data['data'])
+  upsert_chunks = [ data['data'][x:x+soda_batch_size] for x in range(0, len(data['data']), soda_batch_size) ]
+
+  for chunk in upsert_chunks:
+      soda_client.upsert(os.environ["SOCRATA_RESOURCEID"], chunk)
