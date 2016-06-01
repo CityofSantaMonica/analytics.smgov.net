@@ -16,7 +16,6 @@ query:
   - ga:percentNewSessions
   - ga:pageviews
   - ga:uniquePageviews
-  - ga:pageviewsPerSession
   - ga:avgTimeOnPage
   - ga:avgPageLoadTime
   - ga:entrances
