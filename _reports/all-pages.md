@@ -13,13 +13,16 @@ query:
   end-date: yesterday
   metrics:
   - ga:sessions
-  - ga:entrances
-  - ga:entranceRate
+  - ga:percentNewSessions
   - ga:pageviews
   - ga:uniquePageviews
+  - ga:pageviewsPerSession
+  - ga:avgTimeOnPage
+  - ga:avgPageLoadTime
+  - ga:entrances
+  - ga:entranceRate
   - ga:bounces
   - ga:bounceRate
-  - ga:avgTimeOnPage
   - ga:exits
   - ga:exitRate
   start-date: yesterday
