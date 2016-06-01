@@ -94,14 +94,15 @@ def aggregate_list_sum(data, groupKey, sumKey, ignoreKeys = None):
     for item in data:
         key = item[groupKey]
 
-        if ignoreKeys is not None and key in ignoreKeys:
-            continue
-
         if key not in output:
             output[key] = item
             output[key][sumKey] = int(output[key][sumKey])
         else:
             output[key][sumKey] += int(item[sumKey])
+
+        if ignoreKeys is not None:
+            for k in ignoreKeys:
+                output[key].pop(k, None)
 
     return [ output[item] for item in output ]
 
@@ -255,6 +256,14 @@ with open(os.path.join(target_folder, 'all-pages-realtime.json'), 'rb+') as data
     write_json_file('top-countries-realtime.json', { 'data': countriesData })
     write_json_file('top-cities-realtime.json', { 'data': citiesData })
     write_json_file('realtime.json', { 'data': { 'active_visitors': total } })
+
+
+# Clean-up 'all-pages-realtime.json' from duplicate URLs and get rid of 'country' & 'city' keys while we're at it
+sortCountKey = lambda x: -int(x[sumKey])
+groupByKey = 'page'
+ignoreKeys = [ 'country', 'city' ]
+sumKey = 'active_visitors'
+aggregate_list_sum_file('all-pages-realtime.json', groupByKey, sumKey, ignoreKeys, sortCountKey)
 
 
 # Today.json aggregation
