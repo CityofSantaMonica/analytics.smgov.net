@@ -6,11 +6,13 @@ meta:
 name: all-pages
 query:
   dimensions:
+  - ga:date
   - ga:hostname
   - ga:pagePath
   - ga:pageTitle
-  end-date: today
+  end-date: yesterday
   metrics:
+  - ga:sessions
   - ga:entrances
   - ga:entranceRate
   - ga:pageviews

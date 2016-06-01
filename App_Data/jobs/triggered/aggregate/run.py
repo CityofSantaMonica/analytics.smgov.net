@@ -29,7 +29,6 @@ os.mkdir(target_folder)
 
 # Reports that will not be aggregated by this script
 ignored_reports = [
-  'user-activity.json'
 ]
 
 def merge_dict_into(objOne, objTwo):
