@@ -6,6 +6,8 @@ meta:
 name: all-pages-realtime
 query:
   dimensions:
+  - rt:country
+  - rt:city
   - rt:pagePath
   - rt:pageTitle
   max-results: '10000'
@@ -15,6 +17,6 @@ query:
 realtime: true
 threshold:
   field: rt:activeUsers
-  value: '10'
+  value: '1'
 
 ---

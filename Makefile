@@ -27,7 +27,6 @@ fetch:
 		eval $$ANALYTICS_CMD --output="$$ANALYTICS_DATA_PATH/$$domain" --frequency=daily --verbose; \
 		eval $$ANALYTICS_CMD --output="$$ANALYTICS_DATA_PATH/$$domain" --frequency=hourly --verbose; \
 		eval $$ANALYTICS_CMD --output="$$ANALYTICS_DATA_PATH/$$domain" --frequency=realtime --verbose; \
-		eval $$ANALYTICS_CMD --output="$$ANALYTICS_DATA_PATH/$$domain" --only=all-pages-realtime --verbose --csv; \
 		echo "--- End $$domain ---"; \
 		sleep 3; done
 
