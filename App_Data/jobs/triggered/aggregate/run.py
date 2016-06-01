@@ -255,7 +255,7 @@ with open(os.path.join(target_folder, 'all-pages-realtime.json'), 'rb+') as data
     # Write the data into the expected files so we don't have to break/change the dashboard
     write_json_file('top-countries-realtime.json', { 'data': countriesData })
     write_json_file('top-cities-realtime.json', { 'data': citiesData })
-    write_json_file('realtime.json', { 'data': { 'active_visitors': total } })
+    write_json_file('realtime.json', { 'data': [{ 'active_visitors': total }] })
 
 
 # Clean-up 'all-pages-realtime.json' from duplicate URLs and get rid of 'country' & 'city' keys while we're at it
