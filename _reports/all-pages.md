@@ -19,11 +19,8 @@ query:
   - ga:avgTimeOnPage
   - ga:avgPageLoadTime
   - ga:entrances
-  - ga:entranceRate
   - ga:bounces
-  - ga:bounceRate
   - ga:exits
-  - ga:exitRate
   start-date: yesterday
 
 ---
