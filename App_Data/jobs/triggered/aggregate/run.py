@@ -64,6 +64,13 @@ def merge_dict_addition(objOne, objTwo):
 
     return newObj
 
+def write_json_file(file_name, json_data):
+    """
+    Open `file_name` and dump JSON into the file
+    """
+    with open(os.path.join(target_folder, file_name), 'wb+') as data_file:
+        json.dump(json_data, data_file, indent=4)
+
 def json_file_writer(fileName, function):
     """
     Open `fileName` and load it as JSON. Call `function` and write the mutated `data` variable into the original file
@@ -218,32 +225,33 @@ for report in reports[2]:
             for key in stripKeys[report]:
                 del item[key]
 
-    with open(os.path.join(target_folder, report), 'w+') as results_file:
-        json.dump(jsonData, results_file, indent=4)
+    write_json_file(report, jsonData)
 
 
 # Reports that need further, special, aggregation
 # -----
 
 
-def write_json_file(file_name, json_data):
-    with open(os.path.join(target_folder, file_name), 'wb+') as data_file:
-        json.dump(json_data, data_file, indent=4)
-
-with open(os.path.join(target_folder, 'all-pages-realtime.json'), 'wb+') as data_file:
+# Let's count unique cities & countries and total up our active visitors and create the respective files
+with open(os.path.join(target_folder, 'all-pages-realtime.json'), 'rb+') as data_file:
     data = json.load(data_file)
+
+    # City or country codes that should be ignored
     ignoreKeys = [ 'zz' ]
 
+    # First tally up the number of entries for things, respectively
     countries = Counter([ k['country'] for k in data['data'] ])
     cities    = Counter([ k['city']    for k in data['data'] ])
     total     = sum([ int(k['active_visitors']) for k in data['data'] ])
 
+    # Convert the tallies into dictionaries and sort them by visitors so our dashboard knows how to handle them
     countriesData = [ {'country': k[0], 'active_visitors': k[1]} for k in dict(countries).items() if k[0] not in ignoreKeys ]
     countriesData = sorted(countriesData, key = lambda x: -x['active_visitors'])
 
     citiesData = [ {'city': k[0], 'active_visitors': k[1]} for k in dict(cities).items() if k[0] not in ignoreKeys ]
     citiesData = sorted(citiesData, key = lambda x: -x['active_visitors'])
 
+    # Write the data into the expected files so we don't have to break/change the dashboard
     write_json_file('top-countries-realtime.json', { 'data': countriesData })
     write_json_file('top-cities-realtime.json', { 'data': citiesData })
     write_json_file('realtime.json', { 'data': { 'active_visitors': total } })
