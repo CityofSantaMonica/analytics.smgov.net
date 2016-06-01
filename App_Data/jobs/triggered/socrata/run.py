@@ -60,14 +60,14 @@ with open(os.path.join(report_folder, 'all-pages.json')) as json_file:
 
     for page in data['data']:
         page = clean_ga_keys(page)
-        visits = page.pop('visits')
+        visits = int(page.pop('visits'))
 
         page['date'] = datestamp
         page['id'] = datestamp + page['domain'] + page['page']
         page['pageviews'] = visits
-        page['bounce_rate'] = page['bounces'] / visits
-        page['entrance_rate'] = page['entrances'] / visits
-        page['exit_rate'] = page['exits'] / visits
+        page['bounce_rate'] = float(page['bounces']) / visits
+        page['entrance_rate'] = float(page['entrances']) / visits
+        page['exit_rate'] = float(['exits']) / visits
 
         for key in percentages:
             page[key] = round(float(page[key]), 2)
