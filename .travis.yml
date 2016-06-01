@@ -1,5 +1,10 @@
+sudo: false
 language: ruby
-cache: bundler
+cache:
+  bundler: true
+  pip: true
+  directories:
+    - _site/pyenv
 rvm:
   - 2.2
 install:
