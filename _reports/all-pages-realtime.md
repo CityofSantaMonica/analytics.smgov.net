@@ -15,6 +15,6 @@ query:
 realtime: true
 threshold:
   field: rt:activeUsers
-  value: '10'
+  value: '1'
 
 ---
