@@ -5,6 +5,7 @@ import json
 import os
 import shutil
 import sys
+from collections import Counter
 from random import shuffle
 
 # The location where agencies individual data is stored; e.g. each agency has its own folder
@@ -225,28 +226,27 @@ for report in reports[2]:
 # -----
 
 
-# Sum up the realtime active users for all domains and aggregate them
-def aggregateRealtimeJson(data):
-    active_visitors = 0
+def write_json_file(file_name, json_data):
+    with open(os.path.join(target_folder, file_name), 'wb+') as data_file:
+        json.dump(json_data, data_file, indent=4)
 
-    for site in data['data']:
-        active_visitors += int(site['active_visitors'])
+with open(os.path.join(target_folder, 'all-pages-realtime.json'), 'wb+') as data_file:
+    data = json.load(data_file)
+    ignoreKeys = [ 'zz' ]
 
-    data['data'] = [{ "active_visitors": active_visitors }]
+    countries = Counter([ k['country'] for k in data['data'] ])
+    cities    = Counter([ k['city']    for k in data['data'] ])
+    total     = sum([ int(k['active_visitors']) for k in data['data'] ])
 
-json_file_writer('realtime.json', aggregateRealtimeJson)
+    countriesData = [ {'country': k[0], 'active_visitors': k[1]} for k in dict(countries).items() if k[0] not in ignoreKeys ]
+    countriesData = sorted(countriesData, key = lambda x: -x['active_visitors'])
 
+    citiesData = [ {'city': k[0], 'active_visitors': k[1]} for k in dict(cities).items() if k[0] not in ignoreKeys ]
+    citiesData = sorted(citiesData, key = lambda x: -x['active_visitors'])
 
-# Cities + Countries Realtime aggregation
-sortCountKey = lambda x: (-int(x[sumKey]), x[groupByKey])
-ignoreKeys = [ 'zz' ]
-
-groupByKey = 'city'
-sumKey = 'active_visitors'
-aggregate_list_sum_file('top-cities-realtime.json', groupByKey, sumKey, ignoreKeys, sortCountKey)
-
-groupByKey = 'country'
-aggregate_list_sum_file('top-countries-realtime.json', groupByKey, sumKey, ignoreKeys, sortCountKey)
+    write_json_file('top-countries-realtime.json', { 'data': countriesData })
+    write_json_file('top-cities-realtime.json', { 'data': citiesData })
+    write_json_file('realtime.json', { 'data': { 'active_visitors': total } })
 
 
 # Today.json aggregation

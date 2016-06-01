@@ -6,6 +6,8 @@ meta:
 name: all-pages-realtime
 query:
   dimensions:
+  - rt:country
+  - rt:city
   - rt:pagePath
   - rt:pageTitle
   max-results: '10000'
