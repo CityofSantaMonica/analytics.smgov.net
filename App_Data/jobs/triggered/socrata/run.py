@@ -65,9 +65,9 @@ with open(os.path.join(report_folder, 'all-pages.json')) as json_file:
         page['date'] = datestamp
         page['id'] = datestamp + page['domain'] + page['page']
         page['pageviews'] = visits
-        page['bounce_rate'] = float(page['bounces']) / visits
-        page['entrance_rate'] = float(page['entrances']) / visits
-        page['exit_rate'] = float(page['exits']) / visits
+        page['bounce_rate'] = 100 * float(page['bounces']) / visits
+        page['entrance_rate'] = 100 * float(page['entrances']) / visits
+        page['exit_rate'] = 100 * float(page['exits']) / visits
 
         for key in percentages:
             page[key] = round(float(page[key]), 2)
