@@ -5,7 +5,7 @@ import sys
 
 sitepackage = os.path.join(
     os.environ['HOME'], "site", "wwwroot",
-    "pyenv", "lib", "python2.7", "site-packages"
+    "pyenv", "lib", "python3.4", "site-packages"
 )
 sys.path.append(sitepackage)
 
