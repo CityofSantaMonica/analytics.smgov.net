@@ -65,12 +65,14 @@ with open(os.path.join(report_folder, 'all-pages.json')) as json_file:
         page['date'] = datestamp
         page['id'] = datestamp + page['domain'] + page['page']
         page['pageviews'] = visits
-        page['bounce_rate'] = 100 * float(page['bounces']) / visits
-        page['entrance_rate'] = 100 * float(page['entrances']) / visits
-        page['exit_rate'] = 100 * float(page['exits']) / visits
+
+        if visits > 0:
+            page['bounce_rate'] = 100 * float(page['bounces']) / visits
+            page['entrance_rate'] = 100 * float(page['entrances']) / visits
+            page['exit_rate'] = 100 * float(page['exits']) / visits
 
         for key in percentages:
-            page[key] = round(float(page[key]), 2)
+            page[key] = round(float(page.get(key, 0), 2)
 
     upsert_chunks = [ data['data'][x:x+soda_batch_size] for x in range(0, len(data['data']), soda_batch_size) ]
 
