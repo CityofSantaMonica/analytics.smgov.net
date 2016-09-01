@@ -1,15 +1,17 @@
 sudo: false
-language: ruby
+language: python
+python:
+  - 3.4
 cache:
   bundler: true
   pip: true
   directories:
     - _site/pyenv
-rvm:
-  - 2.2
+before_install:
+  - rvm install 2.2.5
 install:
   - export PATH=$HOME/.local/bin:$PATH
-  - pip install --user `whoami` virtualenv
+  - pip install virtualenv
 script:
   - bash .travis/build.sh
 before_deploy:
