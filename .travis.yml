@@ -1,14 +1,23 @@
 sudo: false
+
+# Because it's easier to switch Ruby versions with rvm installed by default, we'll have Travis
+# treat this repo as a Python project so we can easily specify the Python version we want. This
+# will also be the version that will be bundled with virtualenv
 language: python
 python:
   - 3.4
+
 cache:
   bundler: true
   pip: true
   directories:
     - _site/pyenv
+
 before_install:
+  # We need Ruby to build the Jekyll site, so setup Ruby 2.2.5 because a Python project has
+  # Ruby 1.8.x installed by default
   - rvm install 2.2.5
+
 install:
   - export PATH=$HOME/.local/bin:$PATH
   - pip install virtualenv
