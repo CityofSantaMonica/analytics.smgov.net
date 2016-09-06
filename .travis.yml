@@ -27,10 +27,6 @@ before_deploy:
   - bash .travis/pre-deploy.sh
 deploy:
   provider: azure_web_apps
-  # use this branch to test the refactor
-  on: webjob-refactor
 env:
   global:
     - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
-    # temp azure slot to test the refactor
-    - AZURE_WA_SLOT=csmanalytics-stage
