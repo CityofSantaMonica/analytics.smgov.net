@@ -46,10 +46,10 @@ def merge_dict_addition(objOne, objTwo):
     Merge two objects and add the respective values to get a total of both
     """
     if not objOne:
-    	return objTwo
+        return objTwo
 
     if not objTwo:
-    	return objOne
+        return objOne
 
     newObj = {}
 
@@ -68,7 +68,7 @@ def write_json_file(file_name, json_data):
     """
     Open `file_name` and dump JSON into the file
     """
-    with open(os.path.join(target_folder, file_name), 'wb+') as data_file:
+    with open(os.path.join(target_folder, file_name), 'w') as data_file:
         json.dump(json_data, data_file, indent=4)
 
 def json_file_writer(fileName, function):
@@ -135,8 +135,8 @@ def aggregate_json_data(jsonFile, primaryKey, uniqueKey, sumKey, fieldnames, sor
 def csv_file_writer(fileName, data, fieldnames, sort = None):
   csvFile = os.path.join(target_folder, os.path.splitext(os.path.basename(fileName))[0] + '.csv')
 
-  with open(csvFile, 'wb+') as csv_file:
-    csvwriter = csv.DictWriter(csv_file, fieldnames=fieldnames)
+  with open(csvFile, 'w+') as csv_file:
+    csvwriter = csv.DictWriter(csv_file, dialect='unix', fieldnames=fieldnames)
     csvwriter.writeheader()
 
     [ csvwriter.writerow(item) for item in sorted(data, key=sort) ]
@@ -185,7 +185,7 @@ for report in reports[2]:
         reportFile = os.path.join(agency[0], report)
 
         try:
-            with open(reportFile) as file_content:
+            with open(reportFile, encoding='utf8') as file_content:
                 data = json.load(file_content)
 
                 if not jsonData:
@@ -234,7 +234,7 @@ for report in reports[2]:
 
 
 # Let's count unique cities & countries and total up our active visitors and create the respective files
-with open(os.path.join(target_folder, 'all-pages-realtime.json'), 'rb+') as data_file:
+with open(os.path.join(target_folder, 'all-pages-realtime.json'), 'r+') as data_file:
     data = json.load(data_file)
 
     # City or country codes that should be ignored
@@ -246,10 +246,10 @@ with open(os.path.join(target_folder, 'all-pages-realtime.json'), 'rb+') as data
     total     = sum([ int(k['active_visitors']) for k in data['data'] ])
 
     # Convert the tallies into dictionaries and sort them by visitors so our dashboard knows how to handle them
-    countriesData = [ {'country': k[0], 'active_visitors': k[1]} for k in dict(countries).items() if k[0] not in ignoreKeys ]
+    countriesData = [ {'country': k[0], 'active_visitors': k[1]} for k in list(dict(countries).items()) if k[0] not in ignoreKeys ]
     countriesData = sorted(countriesData, key = lambda x: -x['active_visitors'])
 
-    citiesData = [ {'city': k[0], 'active_visitors': k[1]} for k in dict(cities).items() if k[0] not in ignoreKeys ]
+    citiesData = [ {'city': k[0], 'active_visitors': k[1]} for k in list(dict(cities).items()) if k[0] not in ignoreKeys ]
     citiesData = sorted(citiesData, key = lambda x: -x['active_visitors'])
 
     # Write the data into the expected files so we don't have to break/change the dashboard

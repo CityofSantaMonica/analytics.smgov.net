@@ -91,26 +91,9 @@ Travis can automatically [deploy to Azure after a successful build](https://docs
 
 #### Scripts
 
-Here's what our `.travis.yml` file looks like
+Here's what our [`.travis.yml`](https://github.com/CityofSantaMonica/analytics.smgov.net/blob/master/.travis.yml) file looks like.
 
-```yaml
-language: ruby
-cache: bundler
-rvm:
-  - 2.2
-script:
-  - bash .travis/build.sh
-before_deploy:
-  - bash .travis/pre-deploy.sh
-deploy:
-  provider: azure_web_apps
-env:
-  global:
-    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
-
-```
-
-We are calling two separate scripts for Travis to execute. The first script is the `.travis/build.sh` script which actually builds the Jekyll website (into the `_site` folder as per Jekyll convention).
+We are calling two separate scripts for Travis to execute. The first script is the `.travis/build.sh` script which actually builds the Jekyll website (into the `_site` folder as per Jekyll convention). In addition, it creates a Python virtual environment that is committed and deployed to Azure with Python 3.4 and our dependencies listed in [`requirements.txt`](https://github.com/CityofSantaMonica/analytics.smgov.net/blob/master/requirements.txt); these dependencies are only committed to Azure so we don't flood our own repository with dependencies that can be automatically fetched.
 
 > In our case, we have a "fake-data" folder for development so we remove that before we build the final website.
 
