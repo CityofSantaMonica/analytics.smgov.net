@@ -68,14 +68,14 @@ def write_json_file(file_name, json_data):
     """
     Open `file_name` and dump JSON into the file
     """
-    with open(os.path.join(target_folder, file_name), 'w') as data_file:
+    with open(os.path.join(target_folder, file_name), 'w', encoding='utf8') as data_file:
         json.dump(json_data, data_file, indent=4)
 
 def json_file_writer(fileName, function):
     """
     Open `fileName` and load it as JSON. Call `function` and write the mutated `data` variable into the original file
     """
-    with open(os.path.join(target_folder, fileName), 'r+') as data_file:
+    with open(os.path.join(target_folder, fileName), 'r+', encoding='utf8') as data_file:
         data = json.load(data_file)
 
         function(data)
@@ -135,7 +135,7 @@ def aggregate_json_data(jsonFile, primaryKey, uniqueKey, sumKey, fieldnames, sor
 def csv_file_writer(fileName, data, fieldnames, sort = None):
   csvFile = os.path.join(target_folder, os.path.splitext(os.path.basename(fileName))[0] + '.csv')
 
-  with open(csvFile, 'w+') as csv_file:
+  with open(csvFile, 'w+', encoding='utf8') as csv_file:
     csvwriter = csv.DictWriter(csv_file, dialect='unix', fieldnames=fieldnames)
     csvwriter.writeheader()
 
@@ -143,7 +143,7 @@ def csv_file_writer(fileName, data, fieldnames, sort = None):
 
 def aggregate_csv_data(jsonFile, fieldnames, sort = None):
 
-  with open(os.path.join(target_folder, jsonFile)) as data_file:
+  with open(os.path.join(target_folder, jsonFile), encoding='utf8') as data_file:
     data = json.load(data_file)
 
     csv_file_writer(jsonFile, data['data'], fieldnames, sort)
@@ -234,7 +234,7 @@ for report in reports[2]:
 
 
 # Let's count unique cities & countries and total up our active visitors and create the respective files
-with open(os.path.join(target_folder, 'all-pages-realtime.json'), 'r+') as data_file:
+with open(os.path.join(target_folder, 'all-pages-realtime.json'), 'r+', encoding='utf8') as data_file:
     data = json.load(data_file)
 
     # City or country codes that should be ignored
@@ -308,7 +308,7 @@ aggregateTopPages = {
 }
 
 for report in aggregateTopPages:
-  with open(os.path.join(target_folder, report)) as json_file:
+  with open(os.path.join(target_folder, report), encoding='utf8') as json_file:
     data = json.load(json_file)
     value = aggregateTopPages[report]
 
@@ -316,7 +316,7 @@ for report in aggregateTopPages:
 
 
 # Aggregate `users.csv`
-with open(os.path.join(target_folder, 'users.json')) as json_file:
+with open(os.path.join(target_folder, 'users.json'), encoding='utf8') as json_file:
   data = json.load(json_file)
   csv_file_writer('users.json', data['data'], ['date', 'visits'], lambda x: x['date'])
 

@@ -53,7 +53,7 @@ percentages = [
     'exit_rate'
 ]
 
-with open(os.path.join(report_folder, 'all-pages.json')) as json_file:
+with open(os.path.join(report_folder, 'all-pages.json'), encoding='utf8') as json_file:
     data = json.load(json_file)
     taken_at = datetime.strptime(data['taken_at'], "%Y-%m-%dT%H:%M:%S.%fZ")
     datestamp = (taken_at - timedelta(days=1)).strftime('%Y-%m-%d')
