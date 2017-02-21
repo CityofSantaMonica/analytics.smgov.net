@@ -10,21 +10,21 @@ from random import shuffle
 
 # The location where agencies individual data is stored; e.g. each agency has its own folder
 if len(sys.argv) > 1:
-  report_folder = sys.argv[1]
+    report_folder = sys.argv[1]
 else:
-  report_folder = os.path.join(
-    os.environ['HOME'],
-    "site",
-    "wwwroot",
-    os.environ["ANALYTICS_DATA_PATH"]
-  )
+    report_folder = os.path.join(
+        os.environ['HOME'],
+        "site",
+        "wwwroot",
+        os.environ["ANALYTICS_DATA_PATH"]
+    )
 
 # Where the aggregated data will go
 target_folder = report_folder + "_aggregation"
 
 # Make a temporary folder for data aggregation
 if os.path.exists(target_folder):
-  shutil.rmtree(target_folder)
+    shutil.rmtree(target_folder)
 
 os.mkdir(target_folder)
 
@@ -120,33 +120,33 @@ def aggregate_list_sum_file(fileName, groupKey, sumKey, ignoreKeys = None, sort 
 
 def aggregate_json_data(jsonFile, primaryKey, uniqueKey, sumKey, fieldnames, sort = None):
 
-  def action(data):
-    primaryKeys = list({ item[primaryKey] for item in data['data'] })
-    totals = []
+    def action(data):
+        primaryKeys = list({ item[primaryKey] for item in data['data'] })
+        totals = []
 
-    for pKey in primaryKeys:
-      items = [ item for item in data['data'] if item[primaryKey] == pKey ]
-      totals += aggregate_list_sum(items, uniqueKey, sumKey)
+        for pKey in primaryKeys:
+            items = [ item for item in data['data'] if item[primaryKey] == pKey ]
+            totals += aggregate_list_sum(items, uniqueKey, sumKey)
 
-    data['data'] = sorted(totals, key = sort)
+        data['data'] = sorted(totals, key = sort)
 
-  json_file_writer(jsonFile, action)
+    json_file_writer(jsonFile, action)
 
 def csv_file_writer(fileName, data, fieldnames, sort = None):
-  csvFile = os.path.join(target_folder, os.path.splitext(os.path.basename(fileName))[0] + '.csv')
+    csvFile = os.path.join(target_folder, os.path.splitext(os.path.basename(fileName))[0] + '.csv')
 
-  with open(csvFile, 'w+', encoding='utf8') as csv_file:
-    csvwriter = csv.DictWriter(csv_file, dialect='unix', fieldnames=fieldnames)
-    csvwriter.writeheader()
+    with open(csvFile, 'w+', encoding='utf8') as csv_file:
+        csvwriter = csv.DictWriter(csv_file, dialect='unix', fieldnames=fieldnames)
+        csvwriter.writeheader()
 
-    [ csvwriter.writerow(item) for item in sorted(data, key=sort) ]
+        [ csvwriter.writerow(item) for item in sorted(data, key=sort) ]
 
 def aggregate_csv_data(jsonFile, fieldnames, sort = None):
 
-  with open(os.path.join(target_folder, jsonFile), encoding='utf8') as data_file:
-    data = json.load(data_file)
+    with open(os.path.join(target_folder, jsonFile), encoding='utf8') as data_file:
+        data = json.load(data_file)
 
-    csv_file_writer(jsonFile, data['data'], fieldnames, sort)
+        csv_file_writer(jsonFile, data['data'], fieldnames, sort)
 
 
 # Get all of our agencies and deleted the first item in the list. The first item is a collection
@@ -160,15 +160,15 @@ reports = agencies[0]
 
 # With the aggregation, the sorting is lost, so sort these reports' `data` array by the respective key
 sortBy = {
-    "top-pages-7-days.json": "visits",
-    "top-pages-30-days.json": "visits",
-    "top-pages-realtime.json": "active_visitors"
+    'top-pages-7-days.json': 'visits',
+    'top-pages-30-days.json': 'visits',
+    'top-pages-realtime.json': 'active_visitors'
 }
 
 # These keys need to be stripped from the respective reports
 stripKeys = {
-    "top-countries-realtime.json": ['domain'],
-    "top-cities-realtime.json": ['domain']
+    'top-countries-realtime.json': ['domain'],
+    'top-cities-realtime.json': ['domain']
 }
 
 # For certain reports, we'll have to borrow values from other reports in order to fix inconsistencies. This will method
@@ -187,7 +187,7 @@ with open(os.path.join(os.environ['HOME'], "site", "wwwroot", "reports", "variab
 # -----
 
 for report in reports[2]:
-    if not report.endswith(".json") or report in ignored_reports:
+    if not report.endswith('.json') or report in ignored_reports:
         continue
 
     jsonData = []
@@ -314,40 +314,40 @@ aggregate_list_sum_file('users.json', 'date', 'visits', None, lambda x: x['date'
 
 # All of these reports have similar data structures
 aggregationDefinitions = {
-  'browsers.json': 'browser',
-  'devices.json': 'device',
-  'ie.json': 'browser_version',
-  'os.json': 'os',
-  'windows.json': 'os_version'
+    'browsers.json': 'browser',
+    'devices.json': 'device',
+    'ie.json': 'browser_version',
+    'os.json': 'os',
+    'windows.json': 'os_version'
 }
 
 for k in aggregationDefinitions:
-  v = aggregationDefinitions[k]
-  sorting = lambda x: (x['date'], -int(x['visits']))
+    v = aggregationDefinitions[k]
+    sorting = lambda x: (x['date'], -int(x['visits']))
 
-  aggregate_json_data(k, 'date', v, 'visits', ['date', v, 'visits'], sorting)
-  aggregate_csv_data(k, ['date', v, 'visits'], sorting)
+    aggregate_json_data(k, 'date', v, 'visits', ['date', v, 'visits'], sorting)
+    aggregate_csv_data(k, ['date', v, 'visits'], sorting)
 
 
 # Aggregate the "top pages" reports
 aggregateTopPages = {
-  'all-pages-realtime.json': 'active_visitors',
-  'top-pages-7-days.json': 'visits',
-  'top-pages-30-days.json': 'visits'
+    'all-pages-realtime.json': 'active_visitors',
+    'top-pages-7-days.json': 'visits',
+    'top-pages-30-days.json': 'visits'
 }
 
 for report in aggregateTopPages:
-  with open(os.path.join(target_folder, report), encoding='utf8') as json_file:
-    data = json.load(json_file)
-    value = aggregateTopPages[report]
+    with open(os.path.join(target_folder, report), encoding='utf8') as json_file:
+        data = json.load(json_file)
+        value = aggregateTopPages[report]
 
-    csv_file_writer(report, data['data'], ['domain', 'page', 'page_title', value], lambda x: -int(x[value]))
+        csv_file_writer(report, data['data'], ['domain', 'page', 'page_title', value], lambda x: -int(x[value]))
 
 
 # Aggregate `users.csv`
 with open(os.path.join(target_folder, 'users.json'), encoding='utf8') as json_file:
-  data = json.load(json_file)
-  csv_file_writer('users.json', data['data'], ['date', 'visits'], lambda x: x['date'])
+    data = json.load(json_file)
+    csv_file_writer('users.json', data['data'], ['date', 'visits'], lambda x: x['date'])
 
 
 # Copy all of the aggregated files into the final directory
