@@ -334,26 +334,44 @@
    * 2. looking up the block id in our `BLOCKS` object, and
    * 3. if a renderer exists, calling it on the selection
    */
-  d3.selectAll("*[data-source]")
-    .each(function() {
-      var blockId = this.getAttribute("data-block"),
-          block = BLOCKS[blockId];
-      if (!block) {
-        return console.warn("no block registered for: %s", blockId);
-      }
+  var loadCharts = function () {
+    d3.selectAll("*[data-source]")
+      .each(function() {
+        var blockId = this.getAttribute("data-block"),
+            block = BLOCKS[blockId];
+        if (!block) {
+          return console.warn("no block registered for: %s", blockId);
+        }
 
-      // each block's promise is resolved when the block renders
-      PROMISES[blockId] = Q.Promise(function(resolve, reject) {
-        block.on("render.promise", resolve);
-        block.on("error.promise", reject);
-      });
+        // each block's promise is resolved when the block renders
+        PROMISES[blockId] = Q.Promise(function(resolve, reject) {
+          block.on("render.promise", resolve);
+          block.on("error.promise", reject);
+        });
 
-      d3.select(this)
-        .datum({
-          source: this.getAttribute("data-source"),
-          block: blockId
-        })
-        .call(block);
+        d3.select(this)
+          .datum({
+            source: this.getAttribute("data-source"),
+            block: blockId
+          })
+          .call(block);
+        });
+  };
+
+  loadCharts();
+
+  // Watch for changes in the selector
+  d3.select("#site-selector")
+    .on('change', function () {
+      var newSite = d3.select(this).property('value');
+
+      d3.selectAll('*[data-source]')
+        .each(function () {
+          var report = this.getAttribute('data-report');
+          this.setAttribute("data-source", baseURL + '/' + newSite + '/' + report);
+        });
+
+      loadCharts();
     });
 
   // nest the windows chart inside the OS chart once they're both rendered
