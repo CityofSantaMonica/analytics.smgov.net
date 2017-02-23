@@ -62,7 +62,31 @@
         var domain = split_urls[split_urls.length-1];
         return domain.replace(new RegExp("%20", "g"), " ");
       },
-      TRANSITION_DURATION = 500;
+      TRANSITION_DURATION = 500,
+      realTimeDisabled = false;
+
+  function simulateClick(selector) {
+    var e = document.createEvent('UIEvents');
+    e.initUIEvent('click', true, true, window, 1);
+
+    d3.select(selector)
+      .node()
+      .dispatchEvent(e);
+  }
+
+  function realTime(disable) {
+    if (realTimeDisabled == disable) {
+      return;
+    }
+
+    d3.select('#app')
+      .classed('no-realtime', disable);
+
+    var pillTarget = (disable) ? '#top-pages-7-days' : '#top-pages-realtime';
+    simulateClick('*[href="' + pillTarget + '"]');
+
+    realTimeDisabled = disable;
+  }
 
   /*
    * Define block renderers for each of the different data types.
@@ -71,7 +95,13 @@
 
     // the realtime block is just `data.totals.active_visitors` formatted with commas
     "realtime": renderBlock()
-      .render(function(selection, data) {
+      .render(function (selection, data) {
+        if (data.data.length == 0) {
+          realTime(true);
+          return;
+        }
+
+        realTime(false);
         var totals = data.data[0];
         selection.text(formatCommas(+totals.active_visitors));
       }),

@@ -134,7 +134,7 @@
       </div>
     </header>
 
-    <main>
+    <main id="app">
       <!--
       JavaScript block hooks look for any element with both data-block and
       data-source attributes:
@@ -248,42 +248,35 @@
             </section>
           </div>
 
-          <section class="section_headline">
-            <h3>Visitor Locations Right Now</h3>
-          </section>
-
-          <div class="row">
-            <section id="cities" class="small-column column-third"
-              data-block="cities"
-              data-report="top-cities-realtime.json"
-              data-source="{{ data_url }}/top-cities-realtime.json">
-              <h4>Cities</h4>
-              <figure id="chart_top-cities-90-days">
-                <div class="data bar-chart">
-                </div>
-              </figure>
+          <div id="active_locations">
+            <section class="section_headline">
+              <h3>Visitor Locations Right Now</h3>
             </section>
 
-            <section id="countries" class="small-column column-third">
-              <h4>Countries</h4>
+            <div class="row">
+              <section id="cities" class="small-column column-third" data-block="cities" data-report="top-cities-realtime.json" data-source="{{ data_url }}/top-cities-realtime.json">
+                <h4>Cities</h4>
+                <figure id="chart_top-cities-90-days">
+                  <div class="data bar-chart">
+                  </div>
+                </figure>
+              </section>
 
-              <figure id="chart_us"
-                data-block="countries"
-                data-report="top-countries-realtime.json"
-                data-source="{{ data_url }}/top-countries-realtime.json">
-                <div class="data bar-chart">
-                </div>
-              </figure>
+              <section id="countries" class="small-column column-third">
+                <h4>Countries</h4>
 
-              <figure id="chart_countries"
-                data-block="international_visits"
-                data-report="top-countries-realtime.json"
-                data-source="{{ data_url }}/top-countries-realtime.json">
-                <h4>International</h4>
-                <div class="data bar-chart">
-                </div>
-              </figure>
-            </section>
+                <figure id="chart_us" data-block="countries" data-report="top-countries-realtime.json" data-source="{{ data_url }}/top-countries-realtime.json">
+                  <div class="data bar-chart">
+                  </div>
+                </figure>
+
+                <figure id="chart_countries" data-block="international_visits" data-report="top-countries-realtime.json" data-source="{{ data_url }}/top-countries-realtime.json">
+                  <h4>International</h4>
+                  <div class="data bar-chart">
+                  </div>
+                </figure>
+              </section>
+            </div>
           </div>
         </div>
 

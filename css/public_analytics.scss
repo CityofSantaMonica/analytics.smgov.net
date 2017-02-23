@@ -156,6 +156,22 @@ h5 {
   font-weight: 400;
 }
 
+.no-realtime {
+  #realtime,
+  #active_locations {
+    display: none;
+  }
+
+  .pills {
+    li {
+      width: 50%;
+
+      &:first-child {
+        display: none;
+      }
+    }
+  }
+}
 
 /*
 * utility classes for layout & display
