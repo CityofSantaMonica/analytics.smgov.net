@@ -14,6 +14,8 @@ cache:
     - _site/pyenv
 
 before_install:
+  - test $TRAVIS_PULL_REQUEST && ./.travis/pr_status pending "Waiting for website to build"
+
   # We need Ruby to build the Jekyll site, so setup Ruby 2.2.5 because a Python project has
   # Ruby 1.8.x installed by default
   - rvm install 2.2.5
@@ -25,8 +27,19 @@ script:
   - bash .travis/build.sh
 before_deploy:
   - bash .travis/pre-deploy.sh
+
+after_success:
+  - test $TRAVIS_PULL_REQUEST && ./.travis/pr_deploy
+after_failure:
+  - test $TRAVIS_PULL_REQUEST && ./.travis/pr_status error "Website failed to build"
+
 deploy:
   provider: azure_web_apps
 env:
   global:
+    - GITHUB_AUTH_USER=allejo
+    - GITHUB_USER=CityofSantaMonica
+    - GITHUB_REPO=analytics.smgov.net
     - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+notifications:
+  email: false
