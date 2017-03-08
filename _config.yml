@@ -35,7 +35,18 @@ twitter: santamonicacity
 
 # Reporting
 collections:
-  - reports
+  reports:
+    output: false
+  websites:
+    output: true
+
+defaults:
+  - scope:
+      path: ''
+      type: websites
+    values:
+      layout: env
+      permalink: /envs/:name.env
 
 # site settings
 settings:
