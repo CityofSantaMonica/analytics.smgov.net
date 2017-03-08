@@ -268,7 +268,7 @@
           .append("a")
             .attr("target", "_blank")
             .attr("href", function(d) {
-              return exceptions[d.domain] || ("http://" + d.domain);
+              return exceptions[d.domain] || (d.domain);
             })
             .text(function(d) {
               return title_exceptions[d.domain] || d.domain;
@@ -303,7 +303,7 @@
               return d.page_title;
             })
             .attr("href", function(d) {
-              return exceptions[d.page] || ("http://" + d.domain + d.page);
+              return exceptions[d.page] || (d.domain + d.page);
             })
             .text(function(d) {
               return title_exceptions[d.page] || d.page_title;
