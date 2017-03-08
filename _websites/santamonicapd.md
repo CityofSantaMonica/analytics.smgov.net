@@ -1,6 +1,6 @@
 ---
 name: SMPD
 report: "120699580"
-hostname: www.santamonicapd.org
+hostname: https://www.santamonicapd.org
 realtime: true
 ---

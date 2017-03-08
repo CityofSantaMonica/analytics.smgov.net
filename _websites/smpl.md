@@ -1,6 +1,6 @@
 ---
 name: Santa Monica Public Library
 report: "120720923"
-hostname: smpl.org
+hostname: https://smpl.org
 realtime: true
 ---

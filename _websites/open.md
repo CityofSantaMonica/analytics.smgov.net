@@ -1,6 +1,6 @@
 ---
 name: Open Data
 report: "120713631"
-hostname: open.smgov.net
+hostname: http://open.smgov.net
 realtime: false
 ---
