@@ -1,3 +1,6 @@
+include:
+- ".surgeignore"
+
 exclude:
 - ".jekyll-metadata"
 - ".gitignore"
