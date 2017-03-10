@@ -216,7 +216,7 @@ for report in reports[2]:
                     pass
 
                 if report in borrowKeys:
-                    c_agency = agency[0].replace('data/', '')
+                    c_agency = os.path.basename(agency[0])
 
                     for item in jsonData['data']:
                         if 'replace_done' not in item:
