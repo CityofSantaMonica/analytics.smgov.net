@@ -179,7 +179,7 @@ borrowKeys = {
 }
 
 global_variables = {}
-with open(os.path.join('reports', 'variables.json')) as data_file:
+with open(os.path.join(os.environ['HOME'], "site", "wwwroot", "reports", "variables.json")) as data_file:
     global_variables = json.load(data_file)
 
 
