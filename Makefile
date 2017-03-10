@@ -7,7 +7,7 @@ dev:
 	bundle exec jekyll serve --config=_config.yml,_configdev.yml --host=0.0.0.0
 
 aggregate:
-	python App_Data/jobs/triggered/aggregate/run.py data
+	python App_Data/jobs/triggered/aggregate/job.py data
 
 # All `fetch-*` commands rely on the `analytics.private` file which should
 # export the following variables:
@@ -18,7 +18,7 @@ aggregate:
 #  - ANALYTICS_KEY
 fetch:
 	source analytics.private; \
-	for envFile in envs/*.env; do \
+	for envFile in _site/envs/*.env; do \
 		domain=$$(basename $$envFile); \
 		domain=$${domain%.*}; \
 		mkdir -p "data/$$domain"; \

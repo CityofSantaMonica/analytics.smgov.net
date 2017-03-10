@@ -171,6 +171,17 @@ stripKeys = {
     "top-cities-realtime.json": ['domain']
 }
 
+# For certain reports, we'll have to borrow values from other reports in order to fix inconsistencies. This will method
+# will make some not so smart assumptions and hopes it works.
+borrowKeys = {
+    "top-pages-7-days.json": ["domain"],
+    "top-pages-30-days.json": ["domain"]
+}
+
+global_variables = {}
+with open(os.path.join('reports', 'variables.json')) as data_file:
+    global_variables = json.load(data_file)
+
 
 # Aggregate all of the reports
 # -----
@@ -204,6 +215,19 @@ for report in reports[2]:
                 except KeyError:
                     pass
 
+                if report in borrowKeys:
+                    c_agency = agency[0].replace('data/', '')
+
+                    for item in jsonData['data']:
+                        if 'replace_done' not in item:
+                            item['replace_done'] = False
+
+                        for key_to_replace in borrowKeys[report]:
+                            if not item['replace_done']:
+                                item[key_to_replace] = global_variables[c_agency][key_to_replace]
+
+                        item['replace_done'] = True
+
         except IOError:
             pass
 
@@ -221,10 +245,15 @@ for report in reports[2]:
     except KeyError:
         pass
 
-    if report in stripKeys:
+    if report in stripKeys or report in borrowKeys:
         for item in jsonData['data']:
-            for key in stripKeys[report]:
-                del item[key]
+            try:
+                del item['replace_done']
+                for key in stripKeys[report]:
+                    del item[key]
+            except KeyError:
+                pass
+
 
     write_json_file(report, jsonData)
 
