@@ -14,5 +14,9 @@ _site
 /work
 analytics.private
 node_modules
-.jekyll-metadata
 __pycache__
+.vscode
+.python-version
+*.zip
+*.gz
+.jekyll-metadata
