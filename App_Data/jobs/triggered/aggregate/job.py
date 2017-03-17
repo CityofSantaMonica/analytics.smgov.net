@@ -258,18 +258,22 @@ if __name__ == "__main__":
 
         # Tally up the number of entries for things, respectively. We'll receive a dictionary in the following format:
         #   {'United States': 50, 'Canada': 2}
+        domains   = Counter([ k['domain']  for k in data['data'] ])
         countries = Counter([ k['country'] for k in data['data'] ])
         cities    = Counter([ k['city']    for k in data['data'] ])
         total     = sum([ int(k['active_visitors']) for k in data['data'] ])
 
         # Convert the tallies into a list of dictionaries and sort them by visitors. By doing this, we'll be giving the
         # dashboard the syntax it expects
+        domainsData   = [ {'domain': k[0], 'active_visitors': k[1]} for k in list(domains.items()) ]
+        domainsData   = sorted(domainsData, key = lambda x: -x['active_visitors'])
         countriesData = [ {'country': k[0], 'active_visitors': k[1]} for k in list(countries.items()) if k[0] not in ignoreKeys ]
         countriesData = sorted(countriesData, key = lambda x: -x['active_visitors'])
         citiesData = [ {'city': k[0], 'active_visitors': k[1]} for k in list(cities.items()) if k[0] not in ignoreKeys ]
         citiesData = sorted(citiesData, key = lambda x: -x['active_visitors'])
 
         # Write the data into the expected files so we don't have to break/change the dashboard
+        write_json_file(report_path('top-domains-realtime.json'), { 'data': domainsData })
         write_json_file(report_path('top-countries-realtime.json'), { 'data': countriesData })
         write_json_file(report_path('top-cities-realtime.json'), { 'data': citiesData })
         write_json_file(report_path('realtime.json'), { 'data': [{ 'active_visitors': total }] })
