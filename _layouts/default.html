@@ -174,18 +174,22 @@
             <div class="chart_subtitle">people on City websites now</div>
           </section>
 
-          <section class="section_headline visits_today">
-            <h3>Visits Today</h3>
-            <h4>Pacific Time</h4>
-          </section>
-          <section id="time_series"
-            data-block="today"
-            data-report="today.json"
-            data-source="{{ data_url }}/today.json"
-            data-refresh="15">
-            <svg class="data time-series">
-            </svg>
-          </section>
+          <div id="timeseries">
+            <section class="section_headline visits_today">
+              <h3>Visits Today</h3>
+              <h4>Pacific Time</h4>
+            </section>
+            <section
+              id="time_series"
+              data-block="today"
+              data-report="today.json"
+              data-source="{{ data_url }}/today.json"
+              data-refresh="15"
+            >
+              <svg class="data time-series">
+              </svg>
+            </section>
+          </div>
 
           <section class="section_headline">
             <h3><span id="total_visitors" class="data">...</span> Visits in the Past 90 Days</h3>
