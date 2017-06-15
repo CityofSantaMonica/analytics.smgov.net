@@ -492,7 +492,10 @@
       window._ie = window._ie9 || window._ie10 || window._ie11;
     </script>
 
-    <script>var baseURL = "{{ data_url }}";</script>
+    <script>
+      var baseURL = "{{ data_url }}";
+      var websites = {% include website-variables.json %};
+    </script>
     <script src="{{ site.baseurl }}/js/index.js"></script>
 
   </body>
