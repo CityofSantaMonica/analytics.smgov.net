@@ -4,7 +4,7 @@ prod:
 	bundle exec jekyll build
 
 dev:
-	bundle exec jekyll serve --config=_config.yml,_configdev.yml --host=0.0.0.0
+	bundle exec jekyll serve --config=_config.yml,_configdev.yml --host=0.0.0.0 --incremental
 
 aggregate:
 	python App_Data/jobs/triggered/aggregate/job.py data

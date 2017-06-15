@@ -63,7 +63,7 @@
         return domain.replace(new RegExp("%20", "g"), " ");
       },
       TRANSITION_DURATION = 500,
-      realTimeDisabled = false;
+      realTimeEnabled = true;
 
   function simulateClick(selector) {
     var e = document.createEvent('UIEvents');
@@ -74,18 +74,18 @@
       .dispatchEvent(e);
   }
 
-  function realTime(disable) {
-    if (realTimeDisabled == disable) {
+  function realTime(enable) {
+    if (realTimeEnabled == enable) {
       return;
     }
 
     d3.select('#app')
-      .classed('no-realtime', disable);
+      .classed('no-realtime', !enable);
 
-    var pillTarget = (disable) ? '#top-pages-7-days' : '#top-pages-realtime';
+    var pillTarget = (enable) ? '#top-pages-realtime' : '#top-pages-7-days';
     simulateClick('*[href="' + pillTarget + '"]');
 
-    realTimeDisabled = disable;
+    realTimeEnabled = enable;
   }
 
   /*
@@ -96,12 +96,6 @@
     // the realtime block is just `data.totals.active_visitors` formatted with commas
     "realtime": renderBlock()
       .render(function (selection, data) {
-        if (data.data.length == 0) {
-          realTime(true);
-          return;
-        }
-
-        realTime(false);
         var totals = data.data[0];
         selection.text(formatCommas(+totals.active_visitors));
       }),
@@ -393,13 +387,22 @@
   // Watch for changes in the selector
   d3.select("#site-selector")
     .on('change', function () {
-      var newSite = d3.select(this).property('value');
+      currentSiteSelection = d3.select(this).property('value');
 
       d3.selectAll('*[data-source]')
         .each(function () {
           var report = this.getAttribute('data-report');
-          this.setAttribute("data-source", baseURL + '/' + newSite + '/' + report);
+          var source =
+            baseURL + '/' + currentSiteSelection +
+            ((currentSiteSelection) ? '/' : '') +
+            report
+          ;
+
+          this.setAttribute("data-source", source);
         });
+
+      var enableRealtime = (currentSiteSelection && websites[currentSiteSelection]['realtime']);
+      realTime(enableRealtime || currentSiteSelection == '');
 
       loadCharts();
     });
