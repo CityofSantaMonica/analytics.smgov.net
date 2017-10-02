@@ -62,7 +62,31 @@
         var domain = split_urls[split_urls.length-1];
         return domain.replace(new RegExp("%20", "g"), " ");
       },
-      TRANSITION_DURATION = 500;
+      TRANSITION_DURATION = 500,
+      realTimeEnabled = true;
+
+  function simulateClick(selector) {
+    var e = document.createEvent('UIEvents');
+    e.initUIEvent('click', true, true, window, 1);
+
+    d3.select(selector)
+      .node()
+      .dispatchEvent(e);
+  }
+
+  function realTime(enable) {
+    if (realTimeEnabled == enable) {
+      return;
+    }
+
+    d3.select('#app')
+      .classed('no-realtime', !enable);
+
+    var pillTarget = (enable) ? '#top-pages-realtime' : '#top-pages-7-days';
+    simulateClick('*[href="' + pillTarget + '"]');
+
+    realTimeEnabled = enable;
+  }
 
   /*
    * Define block renderers for each of the different data types.
@@ -71,7 +95,7 @@
 
     // the realtime block is just `data.totals.active_visitors` formatted with commas
     "realtime": renderBlock()
-      .render(function(selection, data) {
+      .render(function (selection, data) {
         var totals = data.data[0];
         selection.text(formatCommas(+totals.active_visitors));
       }),
@@ -334,26 +358,53 @@
    * 2. looking up the block id in our `BLOCKS` object, and
    * 3. if a renderer exists, calling it on the selection
    */
-  d3.selectAll("*[data-source]")
-    .each(function() {
-      var blockId = this.getAttribute("data-block"),
-          block = BLOCKS[blockId];
-      if (!block) {
-        return console.warn("no block registered for: %s", blockId);
-      }
+  var loadCharts = function () {
+    d3.selectAll("*[data-source]")
+      .each(function() {
+        var blockId = this.getAttribute("data-block"),
+            block = BLOCKS[blockId];
+        if (!block) {
+          return console.warn("no block registered for: %s", blockId);
+        }
 
-      // each block's promise is resolved when the block renders
-      PROMISES[blockId] = Q.Promise(function(resolve, reject) {
-        block.on("render.promise", resolve);
-        block.on("error.promise", reject);
-      });
+        // each block's promise is resolved when the block renders
+        PROMISES[blockId] = Q.Promise(function(resolve, reject) {
+          block.on("render.promise", resolve);
+          block.on("error.promise", reject);
+        });
 
-      d3.select(this)
-        .datum({
-          source: this.getAttribute("data-source"),
-          block: blockId
-        })
-        .call(block);
+        d3.select(this)
+          .datum({
+            source: this.getAttribute("data-source"),
+            block: blockId
+          })
+          .call(block);
+        });
+  };
+
+  loadCharts();
+
+  // Watch for changes in the selector
+  d3.select("#site-selector")
+    .on('change', function () {
+      currentSiteSelection = d3.select(this).property('value');
+
+      d3.selectAll('*[data-source]')
+        .each(function () {
+          var report = this.getAttribute('data-report');
+          var source =
+            baseURL + '/' + currentSiteSelection +
+            ((currentSiteSelection) ? '/' : '') +
+            report
+          ;
+
+          this.setAttribute("data-source", source);
+        });
+
+      var enableRealtime = (currentSiteSelection && websites[currentSiteSelection]['realtime']);
+      realTime(enableRealtime || currentSiteSelection == '');
+
+      loadCharts();
     });
 
   // nest the windows chart inside the OS chart once they're both rendered

@@ -14,3 +14,4 @@ _site
 /work
 analytics.private
 node_modules
+*.pyc

@@ -116,16 +116,15 @@
           </div>
         </div>
 
-        {% if site.settings.multi_agency and site.agencies.size > 0 %}
-          <div class="agency-selector-wrap">
-            <select class="agency-selector" title="Agency Selection Dropdown">
-              <option value="{{site.baseurl}}/">{{site.dropdown_title}}</option>
-              {% for agency in site.agencies %}
-                <option value="{{site.baseurl}}{{agency.url}}">{{agency.name}}</option>
-              {% endfor %}
-            </select>
-          </div>
-        {% endif %}
+        <div class="navigation-agency">
+          <select id="site-selector" title="Website Selection Dropdown">
+            <option value="">All Websites</option>
+            {% assign sites = site.websites | sort: 'name' %}
+            {% for agency in sites %}
+              <option value="{{ agency.path | replace: '_websites/' | replace: '.md' }}">{{ agency.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
 
         <div class="navigation">
           <a href="#explanation" id="about">
@@ -135,7 +134,7 @@
       </div>
     </header>
 
-    <main>
+    <main id="app">
       <!--
       JavaScript block hooks look for any element with both data-block and
       data-source attributes:
@@ -166,25 +165,35 @@
             Actual real-time visitor counts may be higher than displayed.
           </div>-->
 
-          <section id="realtime"
+          <section
+            id="realtime"
             data-block="realtime"
+            data-report="realtime.json"
             data-source="{{ data_url }}/realtime.json"
-            data-refresh="15">
+            data-refresh="15"
+            data-realtime="true"
+          >
             <h2 id="current_visitors" class="data">...</h2>
             <div class="chart_subtitle">people on City websites now</div>
           </section>
 
-          <section class="section_headline visits_today">
-            <h3>Visits Today</h3>
-            <h4>Pacific Time</h4>
-          </section>
-          <section id="time_series"
-            data-block="today"
-            data-source="{{ data_url }}/today.json"
-            data-refresh="15">
-            <svg class="data time-series">
-            </svg>
-          </section>
+          <div id="timeseries">
+            <section class="section_headline visits_today">
+              <h3>Visits Today</h3>
+              <h4>Pacific Time</h4>
+            </section>
+            <section
+              id="time_series"
+              data-block="today"
+              data-report="today.json"
+              data-source="{{ data_url }}/today.json"
+              data-refresh="15"
+              data-realtime="true"
+            >
+              <svg class="data time-series">
+              </svg>
+            </section>
+          </div>
 
           <section class="section_headline">
             <h3><span id="total_visitors" class="data">...</span> Visits in the Past 90 Days</h3>
@@ -193,7 +202,10 @@
           <div class="row">
             <section id="devices" class="small-column column-third"
               data-block="devices"
-              data-source="{{ data_url }}/devices.json">
+              data-report="devices.json"
+              data-source="{{ data_url }}/devices.json"
+              data-realtime="false"
+            >
               <h4>Devices</h4>
               <figure id="chart_device_types">
                 <div class="data bar-chart">
@@ -206,15 +218,21 @@
 
               <figure id="chart_browsers"
                 data-block="browsers"
-                data-source="{{ data_url }}/browsers.json">
+                data-report="browsers.json"
+                data-source="{{ data_url }}/browsers.json"
+                data-realtime="false"
+              >
                 <div class="data bar-chart">
                 </div>
               </figure>
 
               <figure id="chart_ie"
                 data-block="ie"
+                data-report="ie.json"
                 data-source="{{ data_url }}/ie.json"
-                data-scale-to-parent="true">
+                data-scale-to-parent="true"
+                data-realtime="false"
+              >
                 <h4>Internet Explorer</h4>
                 <div class="data bar-chart">
                 </div>
@@ -226,15 +244,19 @@
 
               <figure id="chart_os"
                 data-block="os"
-                data-source="{{ data_url }}/os.json">
+                data-report="os.json"
+                data-source="{{ data_url }}/os.json"
+                data-realtime="false">
                 <div class="data bar-chart">
                 </div>
               </figure>
 
               <figure id="chart_windows"
                 data-block="windows"
+                data-report="windows.json"
                 data-source="{{ data_url }}/windows.json"
-                data-scale-to-parent="true">
+                data-scale-to-parent="true"
+                data-realtime="false">
                 <h4>Windows</h4>
                 <div class="data bar-chart">
                 </div>
@@ -242,39 +264,50 @@
             </section>
           </div>
 
-          <section class="section_headline">
-            <h3>Visitor Locations Right Now</h3>
-          </section>
-
-          <div class="row">
-            <section id="cities" class="small-column column-third"
-              data-block="cities"
-              data-source="{{ data_url }}/top-cities-realtime.json">
-              <h4>Cities</h4>
-              <figure id="chart_top-cities-90-days">
-                <div class="data bar-chart">
-                </div>
-              </figure>
+          <div id="active_locations">
+            <section class="section_headline">
+              <h3>Visitor Locations Right Now</h3>
             </section>
 
-            <section id="countries" class="small-column column-third">
-              <h4>Countries</h4>
+            <div class="row">
+              <section id="cities" class="small-column column-third"
+                data-block="cities"
+                data-report="top-cities-realtime.json"
+                data-source="{{ data_url }}/top-cities-realtime.json"
+                data-realtime="true"
+              >
+                <h4>Cities</h4>
+                <figure id="chart_top-cities-90-days">
+                  <div class="data bar-chart">
+                  </div>
+                </figure>
+              </section>
 
-              <figure id="chart_us"
-                data-block="countries"
-                data-source="{{ data_url }}/top-countries-realtime.json">
-                <div class="data bar-chart">
-                </div>
-              </figure>
+              <section id="countries" class="small-column column-third">
+                <h4>Countries</h4>
 
-              <figure id="chart_countries"
-                data-block="international_visits"
-                data-source="{{ data_url }}/top-countries-realtime.json">
-                <h4>International</h4>
-                <div class="data bar-chart">
-                </div>
-              </figure>
-            </section>
+                <figure id="chart_us"
+                  data-block="countries"
+                  data-report="top-countries-realtime.json"
+                  data-source="{{ data_url }}/top-countries-realtime.json"
+                  data-realtime="true"
+                >
+                  <div class="data bar-chart">
+                  </div>
+                </figure>
+
+                <figure id="chart_countries"
+                  data-block="international_visits"
+                  data-report="top-countries-realtime.json"
+                  data-source="{{ data_url }}/top-countries-realtime.json"
+                  data-realtime="true"
+                >
+                  <h4>International</h4>
+                  <div class="data bar-chart">
+                  </div>
+                </figure>
+              </section>
+            </div>
           </div>
         </div>
 
@@ -290,8 +323,11 @@
 
             <figure class="top-pages" id="top-pages-realtime" role="tabpanel"
               data-block="top-pages"
+              data-report="top-pages-realtime.json"
               data-source="{{ data_url }}/top-pages-realtime.json"
-              data-refresh="15">
+              data-refresh="15"
+              data-realtime="true"
+            >
               <h5><em>
                 People on a <strong>single, specific page</strong> now.
                 <a href="{{ data_url }}/all-pages-realtime.csv">Download the full dataset.</a>
@@ -302,7 +338,10 @@
 
             <figure class="top-pages" id="top-pages-7-days" role="tabpanel"
               data-block="top-pages"
-              data-source="{{ data_url }}/top-pages-7-days.json">
+              data-report="top-pages-7-days.json"
+              data-source="{{ data_url }}/top-pages-7-days.json"
+              data-realtime="false"
+            >
               <h5><em>Visits over the last week to <strong>pages</strong>.</em></h5>
               <div class="data bar-chart">
               </div>
@@ -310,7 +349,10 @@
 
             <figure class="top-pages" id="top-pages-30-days" role="tabpanel"
               data-block="top-pages"
-              data-source="{{ data_url }}/top-pages-30-days.json">
+              data-report="top-pages-30-days.json"
+              data-source="{{ data_url }}/top-pages-30-days.json"
+              data-realtime="false"
+            >
               <h5><em>
                 Visits over the last month to <strong>pages</strong>.
                 <!-- <a href="{{ data_url }}/all-domains-30-days.csv">Download the full dataset.</a> -->
@@ -487,6 +529,11 @@
       window._ie = window._ie9 || window._ie10 || window._ie11;
     </script>
 
+    <script>
+      var baseURL = "{{ data_url }}";
+      var currentSiteSelection = '';
+      var websites = {% include website-variables.json %};
+    </script>
     <script src="{{ site.baseurl }}/js/index.js"></script>
 
   </body>

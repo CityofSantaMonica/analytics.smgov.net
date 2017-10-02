@@ -1,10 +1,4 @@
 ---
 ---
 
-{
-    {% for website in site.websites %}
-        "{{ website.path | split: '/' | last | replace: '.md', '' }}": {
-            "domain": "{{ website.hostname }}"
-        }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-}
+{% include website-variables.json %}
