@@ -14,3 +14,5 @@ _site
 /work
 analytics.private
 node_modules
+.jekyll-metadata
+__pycache__
