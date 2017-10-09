@@ -1,1 +1,1 @@
-D:\Python34\python job.py
+D:\home\python361x64\python.exe job.py

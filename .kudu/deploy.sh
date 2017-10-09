@@ -98,6 +98,14 @@ selectNodeVersion () {
 # Deployment
 # ----------
 
+echo Handling Python deployment.
+
+if [ -e "$DEPLOYMENT_TARGET/requirements.txt" ]; then
+  D:/home/python361x64/python.exe -m pip install --upgrade -r requirements.txt
+  exitWithMessageOnError "pip failed"
+  cd - > /dev/null
+fi
+
 echo Handling node.js deployment.
 
 # 1. KuduSync
