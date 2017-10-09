@@ -1,40 +1,28 @@
 sudo: false
 
-# Because it's easier to switch Ruby versions with rvm installed by default, we'll have Travis
-# treat this repo as a Python project so we can easily specify the Python version we want. This
-# will also be the version that will be bundled with virtualenv
-language: python
-python:
-  - 3.4
+language: ruby
+rvm:
+  - 2.2
 
 cache:
   bundler: true
-  pip: true
-  directories:
-    - _site/pyenv
 
 before_install:
-  - test $TRAVIS_PULL_REQUEST && ./.travis/pr_status pending "Waiting for website to build"
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./.travis/pr_status pending "Waiting for website to build"; fi'
 
-  # We need Ruby to build the Jekyll site, so setup Ruby 2.2.5 because a Python project has
-  # Ruby 1.8.x installed by default
-  - rvm install 2.2.5
-
-install:
-  - export PATH=$HOME/.local/bin:$PATH
-  - pip install virtualenv
 script:
   - bash .travis/build.sh
 before_deploy:
   - bash .travis/pre-deploy.sh
 
 after_success:
-  - test $TRAVIS_PULL_REQUEST && ./.travis/pr_deploy
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./.travis/pr_deploy; fi'
 after_failure:
-  - test $TRAVIS_PULL_REQUEST && ./.travis/pr_status error "Website failed to build"
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./.travis/pr_status error "Website failed to build"; fi'
 
 deploy:
   provider: azure_web_apps
+  verbose: true
 env:
   global:
     - GITHUB_AUTH_USER=allejo
