@@ -26,7 +26,11 @@ fetch:
 		source $$envFile; \
 		eval $$ANALYTICS_CMD --output="$$ANALYTICS_DATA_PATH/$$domain" --frequency=daily --verbose; \
 		eval $$ANALYTICS_CMD --output="$$ANALYTICS_DATA_PATH/$$domain" --frequency=hourly --verbose; \
+    if [ "$$REALTIME" = true ]; then \
+    echo "Treating $$domain as realtime..."; \
 		eval $$ANALYTICS_CMD --output="$$ANALYTICS_DATA_PATH/$$domain" --frequency=realtime --verbose; \
+    unset REALTIME; \
+    fi; \
 		echo "--- End $$domain ---"; \
 		sleep 3; done
 
